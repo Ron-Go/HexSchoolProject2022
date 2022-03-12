@@ -45,8 +45,10 @@ export default {
         password: '',
       },
       api: {
-        url: 'https://vue3-course-api.hexschool.io/v2',
-        path: 'vue2022ron',
+        // url: 'https://vue3-course-api.hexschool.io/v2',
+        // path: 'vue2022ron',
+        url: process.env.VUE_APP_API,
+        path: process.env.VUE_APP_PATH,
       },
       // vue-loading-overlay
       loader: {},
@@ -54,8 +56,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route);
-    console.log(this.$refs);
   },
   methods: {
     // 登入
@@ -73,7 +73,8 @@ export default {
           // 跳頁到後台管理頁面
           this.$router.push('/admin/manage');
         })
-        .catch(() => {
+        .catch((err) => {
+          console.dir(err);
           this.offLoading();
         });
     },
@@ -83,8 +84,8 @@ export default {
         // Optional parameters
         // 若loading圖示只在某元素內出現，isFullPage: false
         isFullPage: this.fullPage,
-        // isFullPage = false，container: this.$refs DOM元素
-        container: this.isFullPage ? null : this.$refs.loginDom,
+        // isFullPage = false，所以container: this.$refs DOM元素
+        container: this.fullPage ? null : this.$refs.loginDom,
         canCancel: true,
         onCancel: this.onCancel,
         loader: 'dots',
