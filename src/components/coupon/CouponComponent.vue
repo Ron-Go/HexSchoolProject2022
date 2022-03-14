@@ -21,7 +21,7 @@
             <td>{{ item.title }}</td>
             <td>{{ item.code }}</td>
             <td>{{ item.percent }}%</td>
-            <td>{{ item.due_date }}</td>
+            <td>{{ convertDate(item.due_date) }}</td>
             <td
             :class="{
               'text-success':item.is_enabled,
@@ -108,12 +108,10 @@ export default {
     },
     // 轉換時間
     // 把tempOrders內物件的create_at屬性轉換yyyy-mm-dd後回傳
-    convertDate() {
-      this.tempCoupons.forEach((value, index) => {
-        // Unix時間，單位/秒 => 單位/毫秒
-        const date = new Date(value.due_date * 1000).toISOString().split('T');
-        [this.tempCoupons[index].due_date] = date;
-      });
+    convertDate(unixCode) {
+      // Unix時間，單位/秒 *1000 => 單位/毫秒
+      const date = new Date(unixCode * 1000).toISOString().split('T');
+      return date[0];
     },
     // 新增優惠券
     addCoupon() {
