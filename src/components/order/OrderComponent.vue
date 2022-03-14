@@ -15,7 +15,7 @@
           </thead>
           <tbody>
             <tr v-for="(item, key) in tempOrders" :key="'item' + key">
-              <td>{{ item.create_at }}</td>
+              <td>{{ convertTime(item.create_at) }}</td>
               <td>{{ item.user.email }}</td>
               <td>
                 <ul class="list-unstyled" v-for="(item, key) in item.products" :key="'list' + key">
@@ -102,7 +102,7 @@ export default {
           this.tempOrders = res.data.orders;
           // 取得分頁資訊，存放pagination
           this.pagination = res.data.pagination;
-          this.convertDate();
+          // this.convertDate();
           this.offLoading();
         })
         .catch((err) => {
@@ -111,12 +111,9 @@ export default {
     },
     // 轉換時間
     // 把tempOrders內物件的create_at屬性轉換日期後回傳
-    convertDate() {
-      this.tempOrders.forEach((value, index) => {
-        // Unix時間，單位/秒 => 單位/毫秒
-        const date = new Date(value.create_at * 1000);
-        this.tempOrders[index].create_at = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      });
+    convertTime(unixCode) {
+      const date = new Date(unixCode * 1000);
+      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
     },
     // 更新付款資訊
     updataPaid(order) {
