@@ -15,7 +15,7 @@
           </thead>
           <tbody>
             <tr v-for="(item, key) in tempOrders" :key="'item' + key">
-              <td>{{ convertTime(item.create_at) }}</td>
+              <td>{{ convertUnix(item.create_at) }}</td>
               <td>{{ item.user.email }}</td>
               <td>
                 <ul class="list-unstyled" v-for="(item, key) in item.products" :key="'list' + key">
@@ -91,6 +91,16 @@ export default {
     this.statusModal = new Modal(document.querySelector('#statusModal'));
     this.getData();
   },
+  computed: {
+    // 轉換時間
+    // 把tempOrders內物件的create_at屬性轉換日期後回傳
+    convertUnix() {
+      return (unix) => {
+        const date = new Date(unix * 1000);
+        return `${date.getFullYear()}/${(this.repairZoro(date.getMonth() + 1))}/${this.repairZoro(date.getDate())} ${this.repairZoro(date.getHours())}:${this.repairZoro(date.getMinutes())}:${this.repairZoro(date.getSeconds())}`;
+      };
+    },
+  },
   methods: {
     // 取得訂單資料
     getData(page = 1) {
@@ -109,11 +119,9 @@ export default {
           this.returnMessage(err.response.data.message, 1000);
         });
     },
-    // 轉換時間
-    // 把tempOrders內物件的create_at屬性轉換日期後回傳
-    convertTime(unixCode) {
-      const date = new Date(unixCode * 1000);
-      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    // 月,日,時,分,秒的數值小於10，前面補零
+    repairZoro(num) {
+      return num < 10 ? `0${num}` : num;
     },
     // 更新付款資訊
     updataPaid(order) {
