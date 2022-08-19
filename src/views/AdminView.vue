@@ -10,7 +10,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <!-- <li class="nav-item">
+            <li class="nav-item">
               <router-link class="nav-link" to="/admin/manage">商品</router-link>
             </li>
             <li class="nav-item">
@@ -21,7 +21,7 @@
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/admin/logout">登出</router-link>
-            </li> -->
+            </li>
             <li v-for="(item, key) in linkList" :key="'item' + key" class="nav-item">
               <router-link class="nav-link"
               :class="{
