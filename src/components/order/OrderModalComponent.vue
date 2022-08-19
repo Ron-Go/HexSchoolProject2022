@@ -2,8 +2,13 @@
   <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header bg-light">
-          <h5 class="modal-title" id="exampleModalLabel">
+        <div class="modal-header">
+          <h5 class="modal-title"
+            :class="{
+              'text-success': !is_delete,
+              'text-danger': is_delete,
+            }"
+            id="exampleModalLabel">
             <span v-if="!is_delete">訂單細節</span>
             <span v-else>刪除訂單</span>
           </h5>

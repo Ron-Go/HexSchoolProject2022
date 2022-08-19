@@ -1,8 +1,15 @@
 <template lang="">
-<div class="container position-relative" style="height:100vh">
-  <div class="row" ref="manageDom">
+<div class="container position-relative" >
+  <Loading
+    :active="isLoading"
+    :loader="loader"
+    :is-full-page="fullPage"
+    :color="color"
+  ></Loading>
+  <div v-if="!tempProducts.length" style="height:80vh"></div>
+  <div v-else class="row">
       <div class="col-12 d-flex justify-content-end my-3">
-          <button type="button" class="btn btn-primary" @click="addProduct">建立新產品</button>
+          <button type="button" class="btn btn-primary text-white" onclick="" @click="addProduct">建立新產品</button>
       </div>
       <!-- 產品清單 -->
       <div class="col-12">
@@ -55,6 +62,8 @@
     @send-page="getData"
   ></pagination>
 </div>
+  <!-- toastsMessage -->
+  <toastMessage></toastMessage>
   <!-- 管理互動視窗 -->
   <manageModal
     ref="manageModal"
@@ -62,22 +71,20 @@
     :manageProduct="manageProduct"
     @confirm-manage="confirmManage"
     @cancel-manage="cancelManage"
-    ></manageModal>
-  <!-- 訊息互動視窗 -->
-  <statusModal
-    ref="statusModal"
-    ></statusModal>
+  ></manageModal>
 </template>
 
 <script>
 // 重新指定bootstrap Modal變數
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle';
 // 引入manageModal元件
-import manageModal from './ManageModalComponent.vue';
+import manageModal from '@/components/ManageModalComponent.vue';
 // 引入pagination元件
-import pagination from './PaginationComponent.vue';
-// 引入statusModal元件
-import statusModal from './statusModalComponent.vue';
+import pagination from '@/components/PaginationComponent.vue';
+// 引入toastMessage元件
+import toastMessage from '@/components/ToastsMessage.vue';
+// vue-loading-overlay 作為元件引入
+import LoadingComponent from '@/mixins/LoadingComponentMixin';
 
 export default {
   data() {
@@ -92,25 +99,21 @@ export default {
       manageModal: {},
       // 賦予互動視窗statusModal實體
       statusModal: {},
-      // vue-loading-overlay
-      loader: {},
-      containerRefs: {},
     };
   },
   components: {
     manageModal,
     pagination,
-    statusModal,
+    toastMessage,
   },
   mounted() {
     this.manageModal = new Modal(document.querySelector('#myModal'));
-    this.statusModal = new Modal(document.querySelector('#statusModal'));
     this.getData();
   },
   methods: {
     // 取得商品資料
     getData(page = 1) {
-      this.onLoading();
+      this.isLoading = true;
       // 用query的方式，代出商品資料
       // /?page=${ 頁數 }
       this.axios
@@ -120,7 +123,7 @@ export default {
           this.tempProducts = res.data.products;
           // 取得分頁資訊，存放pagination
           this.pagination = res.data.pagination;
-          this.offLoading();
+          this.isLoading = false;
         })
         .catch(() => {
         });
@@ -166,11 +169,13 @@ export default {
             // manageMode回到初始狀態
             this.manageMode = 0;
             this.manageModal.hide();
-            this.returnMessage(res.data.message, 1000);
+            this.$httpToastMessage(res, '新增商品');
           })
           .catch((err) => {
-            console.dir(err);
-            this.returnMessage(err.data.message, 1000);
+            // manageMode回到初始狀態
+            this.manageMode = 0;
+            this.manageModal.hide();
+            this.$httpToastMessage(err.response, '新增商品');
           });
       } else if (this.manageMode === 2) {
         // 修改商品
@@ -184,26 +189,35 @@ export default {
             // manageMode回到初始狀態
             this.manageMode = 0;
             this.manageModal.hide();
-            this.returnMessage(res.data.message, 1000);
+            setTimeout(() => {
+              this.$httpToastMessage(res, '修改商品');
+            }, 1000);
           })
           .catch((err) => {
-            this.returnMessage(err.data.message, 1000);
+            // manageMode回到初始狀態
+            this.manageMode = 0;
+            this.manageModal.hide();
+            this.$httpToastMessage(err.response, '修改商品');
           });
       } else if (this.manageMode === 3) {
         // 刪除商品
         this.axios.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${product.id}`)
           .then((res) => {
-            this.manageModal.hide();
-            this.returnMessage(res.data.message, 1000);
+            // 刪除完再清空manageProduct
+            this.manageProduct = {};
             // manageMode回到初始狀態
             this.manageMode = 0;
+            this.manageModal.hide();
             // 刪除商品，再重新取得全部資料渲染
             // 刪除完商品，getData()不使用參數預設值，代入當前頁數，避免跳回第一頁
             this.getData(this.pagination.current_page);
+            this.$httpToastMessage(res, '刪除商品');
           })
           .catch((err) => {
+            // manageMode回到初始狀態
+            this.manageMode = 0;
             this.manageModal.hide();
-            this.returnMessage(err.data.message, 1000);
+            this.$httpToastMessage(err.response, '刪除商品');
           });
       }
     },
@@ -214,37 +228,8 @@ export default {
       // manageMode回初始狀態
       this.manageMode = 0;
     },
-    // 開始vue-loading
-    onLoading() {
-      this.loader = this.$loading.show({
-        // Optional parameters
-        // 若loading圖示只在某元素內出現，isFullPage: false
-        isFullPage: false,
-        // isFullPage = false，所以container: this.$refs DOM元素
-        container: this.$refs.manageDom,
-        canCancel: false,
-        onCancel: this.onCancel,
-        loader: 'dots',
-        width: 64,
-        height: 64,
-        backgroundColor: '#ffffff',
-        opacity: 0.5,
-      });
-    },
-    // 結束vue-loading
-    offLoading() {
-      setTimeout(() => {
-        this.loader.hide();
-      }, 0);
-    },
-    // 訊息互動視窗
-    returnMessage(text, time = 2000) {
-      setTimeout(() => {
-        this.$refs.statusModal.textContent = text;
-        this.statusModal.show();
-      }, time);
-    },
   },
+  mixins: [LoadingComponent],
 };
 </script>
 <style lang="">

@@ -1,0 +1,94 @@
+/*------------------------------------*\
+    $base
+\*------------------------------------*/
+body{
+  line-height: 1.5;
+  color: map-get($color-darken-white, 87);
+  font-family: $font-family-base;
+}
+h1{
+  font-size: $font-size-base * 3;
+  font-weight: 900;
+}
+h2{
+  font-size: $font-size-base * 2.5;
+  font-weight: 700;
+}
+
+h3{
+  font-size: $font-size-base * 2;
+  line-height: 1.5;
+}
+
+h4{
+  font-size: $font-size-base * 1.5;
+  line-height: 1.5;
+}
+
+li{
+  font-size: $font-size-base * 1.25;
+  line-height: 1.5;
+}
+
+p{
+  font-size: $font-size-base * 1.5;
+  line-height: 1.5;
+}
+
+a{
+  font-size: $font-size-base * 1.25;
+  text-decoration: none;
+  font-weight: 400;
+  line-height: 1.5;
+  color: map-get($color-darken-white, 87);
+}
+
+span{
+  display: inline-block;
+  font-size: $font-size-base * 1.5;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+img{
+  vertical-align: middle;
+}
+
+figcaption{
+  font-size: $font-size-base * 3;
+  line-height: 1.5;
+}
+
+label{
+  color: #000000;
+  font-size: $font-size-base * 1;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+input{
+  font-size: $font-size-base * 1;
+  font-weight: 400;
+  line-height: 21px;
+  padding: $spacer * 0.3125 $spacer * 0.75;
+  border: 1px solid $color-border-base;
+  background-color: $color-bgc-input;
+}
+
+textarea{
+  font-size: $font-size-base * 1;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: $spacer * 0.4375 $spacer * 0.75;
+  border: 1px solid $color-border-base;
+  background-color: $color-bgc-input;
+}
+
+::placeholder{
+  color: rgba(0, 0, 0, 0.2);
+}
+
+button:focus{
+  outline: 0px;
+}
+

@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">ManageSystem</a>
+        <a class="navbar-brand" href="#">後台管理系統</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
         aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <router-link class="nav-link" to="/admin/manage">商品</router-link>
             </li>
             <li class="nav-item">
@@ -21,6 +21,13 @@
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/admin/logout">登出</router-link>
+            </li> -->
+            <li v-for="(item, key) in linkList" :key="'item' + key" class="nav-item">
+              <router-link class="nav-link"
+              :class="{
+                'fw-bold': $route.name === item,
+              }"
+              :to="`/admin/${item}`">{{ item }}</router-link>
             </li>
           </ul>
         </div>
@@ -28,12 +35,31 @@
     </nav>
   </div>
   <router-view></router-view>
+  <!-- toastMessage -->
+  <toastMessage></toastMessage>
 </template>
 
 <script>
+import toastMessage from '@/components/ToastsMessage.vue';
+
 export default {
+  data() {
+    return {
+      linkList: ['product', 'order', 'coupon', 'logout'],
+      linkName: '',
+      activeId: 'product',
+    };
+  },
   created() {
     this.adminCheck();
+  },
+  components: {
+    toastMessage,
+  },
+  watch: {
+    // $route() {
+    //   console.log(this.$route.name);
+    // },
   },
   methods: {
     // 確認登入狀態
@@ -48,22 +74,12 @@ export default {
         })
         .catch((err) => {
           console.dir(err);
+          this.$httpToastMessage(err.response, '登入');
         });
     },
-    // logout() {
-    //   this.axios
-    //     .post(`${process.env.VUE_APP_API}/logout`)
-    //     .then(() => {
-    //       // 跳頁到登入頁面
-    //       this.$router.push('/front/login');
-    //     })
-    //     .catch((err) => {
-    //       console.dir(err);
-    //     });
-    // },
   },
 };
 </script>
 
-<style lang="">
+<style lang="scss">
 </style>

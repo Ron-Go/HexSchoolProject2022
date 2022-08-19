@@ -3,17 +3,20 @@ module.exports = {
   env: {
     node: true,
   },
+  parserOptions: {
+    parser: '@babel/eslint-parser',
+  },
   extends: [
     'plugin:vue/vue3-essential',
     '@vue/airbnb',
   ],
-  parserOptions: {
-    parser: '@babel/eslint-parser',
-  },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'max-len' : ["error", {code : 300}],
+    'max-len' : ["error", {code : 2000}],
+    'vuejs-accessibility/label-has-for' : 'off',
+    'vuejs-accessibility/anchor-has-content' : 'off',
+    'vuejs-accessibility/form-control-has-label' : 'off',
     // "vuejs-accessibility/label-has-for": [
     //   "error",
     //   {

@@ -1,11 +1,20 @@
 <template lang="">
 <!-- 按esc鍵關閉Modal，相同的$emit事件 -->
 <div class="modal fade" tabindex="-1" id="myModal"
-  data-bs-backdrop="static"
-  @keyup.esc="$emit('cancel-manage')">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    data-bs-backdrop="static"
+    @keyup.esc="$emit('cancel-manage')">
+    <!-- 新增、修改時modal-xl，刪除時modal-sm -->
+  <div class="modal-dialog modal-dialog-scrollable"
+    :class="{
+      'modal-xl': manageMode === 1 || manageMode === 2,
+    }">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header"
+        :class="{
+          'text-primary': manageMode === 1,
+          'text-success': manageMode === 2,
+          'text-danger': manageMode === 3,
+        }">
         <h5 class="modal-title">
           <span v-if="manageMode == 1">建立新產品</span>
           <span v-else-if="manageMode == 2">編輯產品</span>
@@ -65,34 +74,38 @@
                     <label for="category" class="form-label w-100">分類
                       <select id="category" v-model="localProduct.category" class="form-select">
                         <option value="" disabled>商品分類</option>
-                        <option value="食品">食品</option>
-                        <option value="美容">美容</option>
+                        <option value="成車">成車</option>
+                        <option value="車架組">車架組</option>
+                        <option value="輪組">輪組</option>
+                        <option value="安全帽">安全帽</option>
+                        <option value="車衣">車衣</option>
                       </select>
                     </label>
                   </div>
                 </div>
                 <!--  -->
                 <div class="row mb-3">
-                  <div class="col-3 mb-3">
+                  <div class="col-4 mb-3">
                     <label for="origin_price" class="form-label w-100">原價
                       <input type="number" class="form-control" min="0"
                         id="origin_price" placeholder="輸入原價"
                         v-model.number="localProduct.origin_price">
                     </label>
                   </div>
-                  <div class="col-3">
+                  <div class="col-4">
                     <label for="price" class="form-label w-100">價格
                       <input type="number" class="form-control" min="0" id="price" placeholder="輸入價格"
                       v-model.number="localProduct.price">
                     </label>
                   </div>
-                  <div class="col-2">
+                  <div class="col-4">
                     <label for="unit" class="form-label w-100">商品單位
                       <select id="unit" v-model="localProduct.unit" class="form-select">
                         <option value="" disabled>商品單位</option>
                         <option value="個">個</option>
-                        <option value="支">支</option>
-                        <option value="公斤">公斤</option>
+                        <option value="組">組</option>
+                        <option value="件">件</option>
+                        <option value="頂">頂</option>
                       </select>
                     </label>
                   </div>
@@ -154,9 +167,9 @@
           </div>
         </form>
         <!-- 刪除畫面 -->
-        <div v-else-if="manageMode === 3" class="div">
-            <h5 class="text-danger">確認刪除此品項</h5>
-            <h5>{{ localProduct.title }}</h5>
+        <div v-else-if="manageMode === 3" class="text-center">
+            <h5 class="text-danger">再次確認刪除</h5>
+            <h5>{{`--${localProduct.title}--`}}</h5>
         </div>
       </div>
       <div class="modal-footer">
@@ -196,8 +209,8 @@ export default {
   mounted() {
   },
   watch: {
-    // 監聽父元件props的manageProduct，有更動時更新到子元件localProduct
-    manageProduct() {
+    // 監聽父元件props的manageMode，有更動時更新到子元件localProduct
+    manageMode() {
       this.localProduct = { ...this.manageProduct };
     },
   },

@@ -1,0 +1,50 @@
+/*------------------------------------*\
+    $utils
+\*------------------------------------*/
+
+// container
+.container-auto{
+  max-width: 1320px;
+  padding: 0 $spacer * 1.5;
+  margin: 0 auto;
+  @include pad{
+    max-width: 720px;
+  }
+  @include mobile{
+    max-width: 372px;
+  }
+}
+
+// color-black-opacity
+@each $key,$value in $color-lighten-black{
+  .color--black--#{$key}{
+    color: $value;
+  }
+}
+
+// color-primary-opacity
+@each $key, $value in $color-lighten-primary {
+  .color--primary--#{$key} {
+    color: $value;
+  }
+}
+
+
+
+@each $key, $value in $color-lighten-secondary{
+  .bg--secondary--#{$key} {
+    background-color: $value;
+  }
+}
+
+
+// font-weight
+@each $key, $value in $font-weight-value {
+  .fw--#{$key} {
+    font-weight: $value;
+  }
+}
+
+
+
+

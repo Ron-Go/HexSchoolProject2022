@@ -1,0 +1,87 @@
+/*------------------------------------*\
+    $custom variable
+\*------------------------------------*/
+
+$color-lighten-primary:(
+    100: lighten($primary, 0%),
+    85: lighten($primary, 15%),
+    50: lighten($primary, 50%),
+    25: lighten($primary, 75%),
+    10: lighten($primary, 90%),
+);
+
+$color-lighten-secondary: (
+    100: lighten($secondary, 0%),
+    85: lighten($secondary, 15%),
+    50: lighten($secondary, 50%),
+    25: lighten($secondary, 75%),
+    10: lighten($secondary, 90%),
+);
+
+$color-lighten-black: (
+    100: lighten($black, 0%),
+    85: lighten($black, 15%),
+    50: lighten($black, 50%),
+    25: lighten($black, 75%),
+    10: lighten($black, 90%),
+);
+
+$color-darken-white: (
+    100: darken($white, 0%),
+    87: darken($white, 13%),
+    60: darken($white, 40%),
+    38: darken($white, 62%),
+    0: darken($white, 100%),
+);
+
+
+$font-weight-value: (
+    thin: 100,
+    light: 300,
+    normal: 400,
+    medium: 500,
+    bold: 700,
+    black: 900,
+);
+
+
+$font-size: (
+  0: $font-size-base * 0,
+  1: $font-size-base * 2.5,
+  2: $font-size-base * 2,
+  3: $font-size-base * 1.75,
+  4: $font-size-base * 1.5,
+  5: $font-size-base * 1.25,
+  6: $font-size-base * 1,
+);
+
+$color-font-base: #650300;
+$color-font-banner-bgText: $white;
+$color-font-banner-title: $white;
+$color-font-link: #ffffff;
+$color-font-btn: #ffffff;
+$color-font-white: #ffffff;
+$color-font-date: #707070;
+$color-font-pagination: #555555;
+$color-font-hover: #ffffff;
+
+$color-border-base: #000000;
+$color-border-white: #ffffff;
+$color-border-recommend: #dee2e6;
+$color-border-title: #9f1213;
+$color-border-pagination: #555555;
+
+$color-bgc-primary: #aa0601;
+$color-bgc-secondary: #fbf2f2;
+$color-bgc-feature: #fbf2f2;
+$color-bgc-figcaption: #ffffff;
+$color-bgc-contact: #fbf2f2;
+$color-bgc-input: #fbf2f2;
+$color-bgc-link: #dcdcdc;
+$color-bgc-Select-primary: #5f3e2d;
+$color-bgc-Select-secondary: #b75929;
+
+
+$font-family-base: 'Noto Sans TC', sans-serif;
+$font-family-English: 'Roboto', sans-serif;
+

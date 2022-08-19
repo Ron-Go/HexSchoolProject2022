@@ -19,5 +19,5 @@ git commit -m 'deploy'
 # 部署到 https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
 
-git push -f git@github.com:Ron-Go/HexSchoolVueLive2022Week07.git master:gh-pages
+git push -f git@github.com:Ron-Go/HexSchoolProject2022.git master:gh-pages
 cd -

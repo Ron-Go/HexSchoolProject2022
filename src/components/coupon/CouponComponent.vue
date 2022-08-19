@@ -1,9 +1,16 @@
 <template lang="">
-<div class="container position-relative" style="height:100vh">
-  <div class="row" ref="couponDom">
+<div class="container position-relative">
+  <Loading
+    :active="isLoading"
+    :loader="loader"
+    :is-full-page="fullPage"
+    :color="color"
+  ></Loading>
+  <div v-if="!tempCoupons.length" style="height:80vh"></div>
+  <div v-else class="row">
     <div class="col-12">
       <div class="text-end my-3">
-        <button type="button" class="btn btn-primary" @click="addCoupon">建立新優惠券</button>
+        <button type="button" class="btn btn-primary text-white" @click="addCoupon">建立新優惠券</button>
       </div>
       <table class="table table-hover">
         <thead>
@@ -26,13 +33,14 @@
             :class="{
               'text-success':item.is_enabled,
               'text-danger':!item.is_enabled,
+              'fw-bold':!item.is_enabled,
               }"
             >{{`${item.is_enabled ? '啟用' : '未啟用'}`}}</td>
             <td>
               <div class="btn-group">
                 <button
                   type="button"
-                  class="btn btn-outline-primary btn-sm"
+                  class="btn btn-outline-success btn-sm"
                   @click="modifyCoupon(item)">編輯</button>
                 <button
                 type="button"
@@ -58,28 +66,29 @@
 @confirm="confirmCoupon"
 @cancel="cancel"
 ></couponModal>
-<!-- statusModal -->
-<statusModal
-ref="statusModal"
-></statusModal>
+<!-- toastMessage -->
+<toastMessage></toastMessage>
 </template>
 
 <script>
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle';
+import LoadingComponent from '@/mixins/LoadingComponentMixin';
+import toastMessage from '@/components/ToastsMessage.vue';
 import couponModal from './CouponModalComponent.vue';
-import statusModal from '../statusModalComponent.vue';
 import pagination from '../PaginationComponent.vue';
 
 export default {
   components: {
     couponModal,
+    toastMessage,
     pagination,
-    statusModal,
   },
   data() {
     return {
       tempCoupons: {},
-      coupon: {},
+      coupon: {
+        is_enabled: 0,
+      },
       pagination: {},
       couponMode: 0,
       couponModal: {},
@@ -88,22 +97,21 @@ export default {
   },
   mounted() {
     this.couponModal = new Modal(document.querySelector('#couponModal'));
-    this.statusModal = new Modal(document.querySelector('#statusModal'));
     this.getData();
+    console.log(this.$route);
   },
   methods: {
     getData(page = 1) {
-      this.onLoading();
+      this.isLoading = true;
       this.axios
         .get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupons/?page=${page}`)
         .then((res) => {
           this.tempCoupons = res.data.coupons;
           this.pagination = res.data.pagination;
-          this.convertDate();
-          this.offLoading();
+          this.isLoading = false;
         })
-        .catch(() => {
-          this.offLoading();
+        .catch((err) => {
+          console.dir(err);
         });
     },
     // 轉換時間
@@ -116,23 +124,28 @@ export default {
     // 新增優惠券
     addCoupon() {
       this.couponMode = 1;
-      this.coupon = {};
+      // this.coupon = {};
       this.couponModal.show();
     },
     // 編輯優惠券
     modifyCoupon(item) {
       this.couponMode = 2;
       const tempItem = { ...item };
-      tempItem.due_date = Math.floor(new Date(tempItem.due_date) / 1000);
       this.coupon = tempItem;
       this.couponModal.show();
     },
+    // 刪除優惠券
     deleteCoupon(item) {
       this.couponMode = 3;
       const tempItem = { ...item };
-      tempItem.due_date = Math.floor(new Date(tempItem.due_date) / 1000);
       this.coupon = tempItem;
       this.couponModal.show();
+    },
+    // couponMode回到初始狀態
+    initialStatus() {
+      this.coupon = {};
+      this.couponMode = 0;
+      this.couponModal.hide();
     },
     confirmCoupon(coupon) {
       // 不同模式做不同的事
@@ -142,47 +155,40 @@ export default {
           .then((res) => {
             // 新增商品，再重新取得全部資料渲染
             this.getData();
-            // couponMode回到初始狀態
-            this.coupon = {};
-            this.couponMode = 0;
-            this.couponModal.hide();
-            this.returnMessage(res.data.message, 1000);
+            this.initialStatus();
+            this.$httpToastMessage(res, '新增優惠券');
           })
           .catch((err) => {
-            console.dir(err);
-            this.returnMessage(err.data.message, 1000);
+            this.initialStatus();
+            this.$httpToastMessage(err.response, '新增優惠券');
           });
       } else if (this.couponMode === 2) {
-        // 修改商品
+        // 修改優惠券
         this.axios.put(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon/${coupon.id}`, { data: coupon })
           .then((res) => {
             // 修改商品，再重新取得全部資料渲染
             // 修改完商品，getData()不使用參數預設值，代入當前頁數，避免跳回第一頁
             this.getData(this.pagination.current_page);
-            this.coupon = {};
-            // couponMode回到初始狀態
-            this.couponMode = 0;
-            this.couponModal.hide();
-            this.returnMessage(res.data.message, 1000);
+            this.initialStatus();
+            this.$httpToastMessage(res, '修改優惠券');
           })
           .catch((err) => {
-            this.returnMessage(err.data.message, 1000);
+            this.initialStatus();
+            this.$httpToastMessage(err, '修改優惠券');
           });
       } else if (this.couponMode === 3) {
         // 刪除商品
         this.axios.delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon/${coupon.id}`)
           .then((res) => {
-            this.couponModal.hide();
-            this.returnMessage(res.data.message, 1000);
-            // couponMode回到初始狀態
-            this.couponMode = 0;
+            this.initialStatus();
             // 刪除商品，再重新取得全部資料渲染
             // 刪除完商品，getData()不使用參數預設值，代入當前頁數，避免跳回第一頁
             this.getData(this.pagination.current_page);
+            this.$httpToastMessage(res, '刪除商品');
           })
           .catch((err) => {
-            this.manageModal.hide();
-            this.returnMessage(err.data.message, 1000);
+            this.initialStatus();
+            this.$httpToastMessage(err.response, '刪除商品');
           });
       }
     },
@@ -192,37 +198,8 @@ export default {
       // couponMode回初始狀態
       this.couponMode = 0;
     },
-    // 開始vue-loading
-    onLoading() {
-      this.loader = this.$loading.show({
-        // Optional parameters
-        // 若loading圖示只在某元素內出現，isFullPage: false
-        isFullPage: false,
-        // isFullPage = false，所以container: this.$refs DOM元素
-        container: this.$refs.couponDom,
-        canCancel: false,
-        onCancel: this.onCancel,
-        loader: 'dots',
-        width: 64,
-        height: 64,
-        backgroundColor: '#ffffff',
-        opacity: 0.5,
-      });
-    },
-    // 結束vue-loading
-    offLoading() {
-      setTimeout(() => {
-        this.loader.hide();
-      }, 0);
-    },
-    // 訊息互動視窗
-    returnMessage(text, time = 2000) {
-      setTimeout(() => {
-        this.$refs.statusModal.textContent = text;
-        this.statusModal.show();
-      }, time);
-    },
   },
+  mixins: [LoadingComponent],
 };
 </script>
 <style lang=""></style>

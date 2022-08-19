@@ -1,30 +1,50 @@
 <template lang="">
-<div class="position-relative" style="height:90vh" ref="logoutDom">
-</div>
+  <div class="position-relative" style="height: 80vh">
+    <Loading
+    :active="isLoading"
+    :loader="loader"
+    :is-full-page="fullPage"
+    :color="color"
+    ></Loading>
+  </div>
+  <!-- toastMessage -->
+  <toastMessage></toastMessage>
 </template>
 <script>
-import loading from '../mixins/MixinLoading';
+// 引入toastMessage
+import toastMessage from '@/components/ToastsMessage.vue';
+// 引入vue-loading-overlay
+import LoadingComponent from '@/mixins/LoadingComponentMixin';
 
 export default {
+  components: {
+    toastMessage,
+  },
   mounted() {
     this.logout();
   },
   methods: {
     logout() {
-      this.onLoading(this.$refs.logoutDom);
+      this.isLoading = true;
       this.axios
         .post(`${process.env.VUE_APP_API}/logout`)
-        .then(() => {
-          this.offLoading();
+        .then((res) => {
+          this.isLoading = false;
           // 跳頁到登入頁面
-          this.$router.push('/front/login');
+          this.$httpToastMessage(res, '登出系統');
+          this.$router.push('/login/check');
         })
         .catch((err) => {
-          console.dir(err);
+          this.$httpToastMessage(err.response, '登出系統');
+          this.isLoading = false;
+          // 返回登出的上一頁
+          setTimeout(() => {
+            this.$router.go(-1);
+          }, 5000);
         });
     },
   },
-  mixins: [loading],
+  mixins: [LoadingComponent],
 };
 </script>
 <style lang=""></style>

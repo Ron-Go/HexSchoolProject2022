@@ -1,0 +1,135 @@
+// banner疊圖
+// 底色（最底層）
+.banner{
+  position: relative;
+  height: 100vh;
+  background: rgba(234, 234, 234, 1);
+}
+
+// banner__container高度，要減去banner__handline的高度（calc(100vh - 176px)）
+// banner__container ，相對定位 position:relative
+// banner__container__bg ，絕對對定位 position:absolute
+// banner__container__main ，絕對對定位 position:absolute
+.banner{
+  &__container{
+    position: relative;
+    height: calc(100vh - 176px);
+    @include mobile{
+      height: calc(100vh - 276px);
+    }
+    // 風景圖-PNG圖片（偽元素，讓底色透出）
+    &::before{
+      content: "";
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      background-attachment: fixed;
+      background-image: url(https://storage.googleapis.com/vue-course-api.appspot.com/vue2022ron/1660103430519.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=SRJFUSeayxo6nIgVjeuTKJVi385wI1IJlpH3afM38mq52r8JwI3zsjs8ZywC%2BR0kcxpFG%2Bq2sRoWFDvSb1nwP8gUY2ocW7ox7ISNYwS8kZDSh%2BRt4LcxeukAS%2BqsWrWqGiSHPG0FmrR8sYprDOaEsDc80uHyg4MtRiAi0p%2FUc557YKA8kMefE5lFwi5TdFwc91Elf0h0kCgoGJIOV8OdokFlztugVW%2BHk5MiQxCEVfRg7zuBik4gI6BJvLIpaT2FUA176mtrhZZ5alVGpL%2Fc6u8VKcPwe4Uswph3r0%2Fe%2BvOSOx8DXdVdufWqNkZPqsvg7ApVYbetWXg6D11fT8BKFA%3D%3D);
+      @include mobile{
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background-image: url(https://storage.googleapis.com/vue-course-api.appspot.com/vue2022ron/1660290542255.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=A0I1OrcVI3qhHJUOS51%2BkvtQaNeTuPNnOpYcC%2F%2B09%2F2q%2FyOxcuTg6Sf8Hb5J%2BsJ19TwabyYuGIyCMpKtQuX0hXjqBNMG9l1Hrkw0P7VyshVhzMLJp4intapTQVYJw1CtVjd35h%2FVaM%2FGxyxZiya2RpvWsHhABU5OjPTXly0OSbxGECuQQJ9IMfgGcftNme1vvPz0DJkJk%2FcQNbX6Mp7o2ebdPzu%2BUiFDbKngzz0QFhGAKMoS%2B5HkYaG9%2BYAFuPQuCXH2ucwrCE%2BLlWDJm8o%2Fe%2FLXLMUT0LGNR91RIB28dMs5Ssd2uJlW6DY4kxuE0gSkNnV9JF6guID5PhmnPqIZyw%3D%3D);
+        background-position: center -8px;
+      }
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+    }
+    &__bg{
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      // cycling文字
+      & .bg__text{
+        font-size: 300px;
+        padding-bottom: 134px;
+        @include pad{
+          font-size: 180px;
+          padding-bottom: 180px;
+        }
+        line-height: 1;
+        color: $color-font-banner-bgText;
+        @include mobile{
+          font-size: $font-size-base * 4.5;
+          padding-bottom: $spacer * 3.5;
+          line-height: $font-size-base * 6.75;
+        }
+      }
+    }
+    &__main{
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      // banner主圖
+      &:before{
+        @include mobile{
+          background-image: url(https://storage.googleapis.com/vue-course-api.appspot.com/vue2022ron/1660290474013.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=QgD0vSw6XVYn%2BeBPTolPAYMQPjQiYQqqmpsT3x48r6ulwdNJ2gLfCP%2FGv5ZTv4otE%2BroxqkEu4iu37gX6iL8%2BrixB2PDQK%2BFga4kDsBgYDRkV4UHnU7FqP%2B6PfIdjyN56hw3vuZHkYJ30M8qCVg4zx5I4sGghp3sbVm2VX1Tz4SyibdXI9Ax3T5j1QLxy5JgJdwOk8gXop7gmoGEyNdL6Cbo0BQNiHE0uY1HRqqe9%2BuJsevlaqIXKBgMiaP706i6vgoBgaN4nNOc07j1DTdGDRevcXUVJ5lb3vSkq7lwVLatCWvS3wPad998xyUoEdpaM0qWrqLxrxf2eKGxDMDz5g%3D%3D);
+          width: 327px;
+          height: 219px;
+        }
+        margin-top: auto;
+        content: "";
+        background-image: url(https://storage.googleapis.com/vue-course-api.appspot.com/vue2022ron/1660114310218.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=JQocaB9eAD2B7xcAhnD%2BsAbz0A4tdxMQsibmE8dX58Y5u2mHbItzmv%2BZinueknxxzhD4rsZtd5i5hHCRzl3IuJeimeO6pBi8VFN0WNVFt5y5yLOAC%2BoWra4OK%2F6vwfNWplLuL0neMi9Da3IVBQSkG62ggaAEGXAZkthyps0QiShnPVtRxsobaCnVGTPCV8T7u%2FHPsR0oNBXovylfmoqS3s6X1sDm8MDfoq%2FplKQqa7vd9g5X8SAd3ujln1LDuPPd7fKtN94wm5K56VhmlMSwf%2F4by4RlJ0Cu3JZOepzDR0ffjPpoOF5O8CgRJig7VoZ8mzrfgg5aPsq5mfMouqzlxQ%3D%3D);
+        width: 852px;
+        height: 568px;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+  &__handline{
+    padding: $spacer * 1.5 0;
+    @include mobile{
+      padding: $spacer * 2.5 0;
+    }
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    &__title{
+      font-size: 48px;
+      line-height: 1.5;
+    }
+    &__title, &__caption{
+      color: $color-font-banner-title;
+    }
+    & button{
+      border: none;
+      color: $color-font-btn;
+      & .btn__icon{
+        font-size: 32px;
+      }
+    }
+  }
+}
+
+.banner{
+  &__handline{
+    &__container{
+      justify-content: space-between;
+      align-items: flex-end;
+      @include mobile{
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+    }
+    &__body{
+      @include mobile{
+        margin-bottom: $spacer * 1.5;
+      }
+    }
+  }
+}
+
+
+// https://storage.googleapis.com/vue-course-api.appspot.com/vue2022ron/1660290474013.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=QgD0vSw6XVYn%2BeBPTolPAYMQPjQiYQqqmpsT3x48r6ulwdNJ2gLfCP%2FGv5ZTv4otE%2BroxqkEu4iu37gX6iL8%2BrixB2PDQK%2BFga4kDsBgYDRkV4UHnU7FqP%2B6PfIdjyN56hw3vuZHkYJ30M8qCVg4zx5I4sGghp3sbVm2VX1Tz4SyibdXI9Ax3T5j1QLxy5JgJdwOk8gXop7gmoGEyNdL6Cbo0BQNiHE0uY1HRqqe9%2BuJsevlaqIXKBgMiaP706i6vgoBgaN4nNOc07j1DTdGDRevcXUVJ5lb3vSkq7lwVLatCWvS3wPad998xyUoEdpaM0qWrqLxrxf2eKGxDMDz5g%3D%3D
+
+// https://storage.googleapis.com/vue-course-api.appspot.com/vue2022ron/1660290542255.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=A0I1OrcVI3qhHJUOS51%2BkvtQaNeTuPNnOpYcC%2F%2B09%2F2q%2FyOxcuTg6Sf8Hb5J%2BsJ19TwabyYuGIyCMpKtQuX0hXjqBNMG9l1Hrkw0P7VyshVhzMLJp4intapTQVYJw1CtVjd35h%2FVaM%2FGxyxZiya2RpvWsHhABU5OjPTXly0OSbxGECuQQJ9IMfgGcftNme1vvPz0DJkJk%2FcQNbX6Mp7o2ebdPzu%2BUiFDbKngzz0QFhGAKMoS%2B5HkYaG9%2BYAFuPQuCXH2ucwrCE%2BLlWDJm8o%2Fe%2FLXLMUT0LGNR91RIB28dMs5Ssd2uJlW6DY4kxuE0gSkNnV9JF6guID5PhmnPqIZyw%3D%3D
+

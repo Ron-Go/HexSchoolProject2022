@@ -1,6 +1,13 @@
 <template lang="">
   <div class="container position-relative" style="height:100vh">
-    <div class="row" ref="orderDom">
+    <Loading
+    :active="isLoading"
+    :loader="loader"
+    :is-full-page="fullPage"
+    :color="color"
+    ></Loading>
+    <div v-if="!tempOrders.length" style="height:80vh"></div>
+    <div v-else class="row">
       <div class="col-12">
         <table class="table table-hover mt-5">
           <thead>
@@ -25,13 +32,19 @@
               <td>{{ item.total }}</td>
               <!-- 是否付款 -->
               <td>
-                <span :class="{'text-success':item.is_paid}">{{ `${item.is_paid ? '已付款' : '未付款'}` }}</span>
+                <span
+                  :class="{
+                    'text-success':item.is_paid,
+                    'text-danger': !item.is_paid,
+                    'fw-bold': !item.is_paid,
+                  }"
+                >{{ `${item.is_paid ? '已付款' : '未付款'}` }}</span>
               </td>
               <!-- 編輯 -->
               <td>
                 <div class="btn-group">
                   <button type="button"
-                    class="btn btn-outline-primary btn-sm"
+                    class="btn btn-outline-success btn-sm"
                     @click="checkOrder(item)"
                     >檢視</button>
                   <button
@@ -59,21 +72,20 @@
     @updataPaid="updataPaid"
     @deleteOrder="deleteConfirm"
   ></orderModal>
-  <!-- statusModal -->
-  <statusModal
-  ref="statusModal"
-  ></statusModal>
+  <!-- toastMessage -->
+  <toastMessage></toastMessage>
 </template>
 <script>
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle';
+import toastMessage from '@/components/ToastsMessage.vue';
+import LoadingComponent from '@/mixins/LoadingComponentMixin';
 import orderModal from './OrderModalComponent.vue';
-import statusModal from '../statusModalComponent.vue';
 import pagination from '../PaginationComponent.vue';
 
 export default {
   components: {
+    toastMessage,
     orderModal,
-    statusModal,
     pagination,
   },
   data() {
@@ -88,7 +100,6 @@ export default {
   },
   mounted() {
     this.orderModal = new Modal(document.querySelector('#orderModal'));
-    this.statusModal = new Modal(document.querySelector('#statusModal'));
     this.getData();
   },
   computed: {
@@ -104,7 +115,7 @@ export default {
   methods: {
     // 取得訂單資料
     getData(page = 1) {
-      this.onLoading();
+      this.isLoading = true;
       this.axios
         .get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/orders/?page=${page}`)
         .then((res) => {
@@ -113,10 +124,10 @@ export default {
           // 取得分頁資訊，存放pagination
           this.pagination = res.data.pagination;
           // this.convertDate();
-          this.offLoading();
+          this.isLoading = false;
         })
         .catch((err) => {
-          this.returnMessage(err.response.data.message, 1000);
+          this.$httpToastMessage(err.response, '取得訂單');
         });
     },
     // 月,日,時,分,秒的數值小於10，前面補零
@@ -134,25 +145,25 @@ export default {
           console.dir(res);
           this.getData();
           this.orderModal.hide();
-          this.returnMessage(res.data.message, 1000);
+          this.$httpToastMessage(res, '更新訂單');
         })
         .catch((err) => {
-          console.dir(err);
-          this.returnMessage(err.data.message, 1000);
+          this.orderModal.hide();
+          this.$httpToastMessage(err.response, '更新訂單');
         });
     },
+    // 確認刪除
     deleteConfirm(order) {
       this.axios
-        .delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${order.id}`)
+        .delete(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/orders/${order.id}`)
         .then((res) => {
-          console.dir(res);
           this.getData();
           this.orderModal.hide();
-          this.returnMessage(res.data.message, 1000);
+          this.$httpToastMessage(res, '刪除訂單');
         })
         .catch((err) => {
-          console.dir(err);
-          this.returnMessage(err.data.message, 1000);
+          this.orderModal.hide();
+          this.$httpToastMessage(err.response, '刪除訂單');
         });
     },
     // 檢視訂單
@@ -167,37 +178,8 @@ export default {
       this.order = order;
       this.orderModal.show();
     },
-    // 開始vue-loading
-    onLoading() {
-      this.loader = this.$loading.show({
-        // Optional parameters
-        // 若loading圖示只在某元素內出現，isFullPage: false
-        isFullPage: false,
-        // isFullPage = false，所以container: this.$refs DOM元素
-        container: this.$refs.orderDom,
-        canCancel: false,
-        onCancel: this.onCancel,
-        loader: 'dots',
-        width: 64,
-        height: 64,
-        backgroundColor: '#ffffff',
-        opacity: 0.5,
-      });
-    },
-    // 結束vue-loading
-    offLoading() {
-      setTimeout(() => {
-        this.loader.hide();
-      }, 0);
-    },
-    // 訊息互動視窗
-    returnMessage(text, time = 2000) {
-      setTimeout(() => {
-        this.$refs.statusModal.textContent = text;
-        this.statusModal.show();
-      }, time);
-    },
   },
+  mixins: [LoadingComponent],
 };
 </script>
 <style lang=""></style>
