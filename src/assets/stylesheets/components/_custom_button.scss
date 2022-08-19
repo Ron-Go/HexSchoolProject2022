@@ -1,0 +1,12 @@
+// @each $key, $value in $color-lighten-black{
+//   .btn-black-#{$key} {
+//     @include button-outline-variant($value, $value);
+//   }
+// }
+@each $key, $value in $color-lighten-black {
+  .btn-outline-black-#{$key} {
+    @include button-outline-variant($value);
+  }
+}
+
+

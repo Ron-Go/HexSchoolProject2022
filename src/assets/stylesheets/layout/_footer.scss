@@ -1,0 +1,149 @@
+/*------------------------------------*\
+    $footer
+\*------------------------------------*/
+.footer{
+  padding: $spacer * 5 0;
+  @include mobile{
+    padding: $spacer * 2.5 0;
+  }
+  &__container{
+    justify-content: space-between;
+    align-items: stretch;
+    @include mobile{
+      flex-direction: column;
+      align-items: center;
+    }
+    &__top {
+      @include mobile{
+        margin-bottom: $spacer * 2;
+      }
+    }
+    &__bottom{
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      @include mobile{
+        justify-content: flex-start;
+        align-items: center;
+      }
+    }
+  }
+}
+.footer{
+  &__title{
+    margin-bottom: $spacer * 1.5;
+    & .logo{
+      @include mobile{
+        margin: 0 auto;
+      }
+      display: block;
+      height: 72px;
+      width: 230px;
+      text-indent: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      background-image: url(https://storage.googleapis.com/vue-course-api.appspot.com/vue2022ron/1660144364883.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=VfoSP6PlISQ2vFc9immAPiC16l6BK2j80y92exMsnt%2Bh0G62Bb70wJccjM4qOR8do4biYZRQX28Ust2eMwLXCl8YjxBhuiBJMzgCtohQUNQio3%2FFcCy5dClqlfFvvnWX7UQTdQqTV%2Bttpfp1lF5Vq3jykWjmf9N7W7KmWF%2BV3GaRnEy1wJclDIQnz8hLteQrJcY8scuFAzZ2t10ZtFTRbPtERs53zBNKd2Uidi9kPbFtDz9UinG9Sr79uhwuhXEglH1qe9%2B7j6W%2BMbO2FTmUWRJQP83VrZdR8OP7rZwl%2B93sP6XS81ch0XoQXYET3Es3Ibl1Z1KEVlqPcbifyRRMlg%3D%3D);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+}
+
+.footer .nav__list {
+  margin-bottom: $spacer * 2;
+  &__item {
+    position: relative;
+    padding-top: 5px;
+    transition: all 0.3s;
+    &:hover {
+      margin-top: -5px;
+      & > a {
+        padding-bottom: 5px;
+        &::after {
+          position: absolute;
+          content: '';
+          height: 1px;
+          bottom: 0px;
+          left: 7.5px;
+          right: 7.5px;
+          background-color: map-get($color-lighten-primary, 100);
+        }
+      }
+    }
+    &__link {
+      display: block;
+      text-decoration: none;
+      transition: all 0.3s;
+      &:hover {
+        color: map-get($color-darken-white, 87);
+      }
+    }
+  }
+}
+
+@include mobile{
+  .footer{
+    &__contact{
+      &__address, &__tel{
+        text-align: center;
+      }
+    }
+  }
+}
+
+.nav__list {
+  &__item + &__item {
+    margin-left: $spacer * 2;
+  }
+}
+
+
+
+.footer{
+  &__socialContact{
+    @include mobile{
+      margin-bottom: $spacer * 1.5;
+    }
+    &__item + &__item{
+      margin-left: $spacer * 1.5;
+    }
+    &__item{
+      &__link{
+        transition: all 0.3s;
+        position: relative;
+        display: block;
+        line-height: 1;
+        &:hover{
+          &::before {
+            position: absolute;
+            top: -2px;
+            left: -3px;
+            content: '';
+            display: block;
+            width: 30px;
+            height: 30px;
+            border: 2px solid map-get($color-lighten-primary, 100);
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.copyright{
+  color: map-get($color-darken-white, 87);
+  & br{
+    display: none;
+  }
+  @include pad{
+    text-align: right;
+    & br{
+      display: block;
+    }
+  }
+  @include mobile{
+    text-align: center;
+  }
+}

@@ -1,5 +1,4 @@
-const { defineConfig } = require('@vue/cli-service');
-
-module.exports = defineConfig({
-  transpileDependencies: true,
-});
+module.exports = {
+  publicPath: '/HexSchoolVueLive2022Week07/',
+  productionSourceMap: false
+}

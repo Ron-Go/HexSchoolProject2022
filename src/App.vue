@@ -2,6 +2,24 @@
   <router-view></router-view>
 </template>
 
+<script>
+
+export default {
+  data() {
+    return {
+    };
+  },
+  components: {
+    // navBar,
+    // pageFooter,
+  },
+  mounted() {
+  },
+  methods: {
+  },
+};
+</script>
+
 <style lang="scss">
-@import "bootstrap/scss/bootstrap"
+@import "./assets/stylesheets/all";
 </style>
