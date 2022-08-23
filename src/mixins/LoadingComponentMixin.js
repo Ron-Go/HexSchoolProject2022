@@ -9,7 +9,7 @@ export default {
       isLoading: false,
       loader: 'dots',
       fullPage: false,
-      color: '#fd5f00',
+      color: '#D96500',
     };
   },
   components: {

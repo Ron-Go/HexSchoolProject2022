@@ -35,7 +35,7 @@
         </a>
       </li>
       <li class="header__connect__item">
-        <a class="text-decoration-none" href="">
+        <a class="text-decoration-none" href="#" @click.prevent="showOffcanvas">
           <span class="d-block material-symbols-outlined cart fs-4 color--black--85">shopping_cart</span>
         </a>
       </li>

@@ -10,6 +10,15 @@ $color-lighten-primary:(
     10: lighten($primary, 90%),
 );
 
+$color-darken-primary: (
+    100: darken($primary, 0%),
+    85: darken($primary, 15%),
+    50: darken($primary, 50%),
+    25: darken($primary, 75%),
+    10: darken($primary, 90%),
+);
+
+
 $color-lighten-secondary: (
     100: lighten($secondary, 0%),
     85: lighten($secondary, 15%),
@@ -58,28 +67,20 @@ $font-size: (
 $color-font-base: #650300;
 $color-font-banner-bgText: $white;
 $color-font-banner-title: $white;
-$color-font-link: #ffffff;
 $color-font-btn: #ffffff;
-$color-font-white: #ffffff;
-$color-font-date: #707070;
-$color-font-pagination: #555555;
-$color-font-hover: #ffffff;
+$color-font-product-series: map-get($color-lighten-primary, 100);
+
 
 $color-border-base: #000000;
-$color-border-white: #ffffff;
-$color-border-recommend: #dee2e6;
-$color-border-title: #9f1213;
-$color-border-pagination: #555555;
+$color-border-produce-num: map-get($color-lighten-black, 25);
 
-$color-bgc-primary: #aa0601;
-$color-bgc-secondary: #fbf2f2;
-$color-bgc-feature: #fbf2f2;
-$color-bgc-figcaption: #ffffff;
-$color-bgc-contact: #fbf2f2;
+
+
 $color-bgc-input: #fbf2f2;
-$color-bgc-link: #dcdcdc;
-$color-bgc-Select-primary: #5f3e2d;
-$color-bgc-Select-secondary: #b75929;
+$color-bgc-prooduct-item: map-get($color-darken-white, 100);
+$color-bgc-produce-value: map-get($color-lighten-black, 10);
+
+
 
 
 $font-family-base: 'Noto Sans TC', sans-serif;

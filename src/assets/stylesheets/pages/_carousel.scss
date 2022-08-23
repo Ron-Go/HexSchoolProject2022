@@ -1,0 +1,87 @@
+.carousel{
+  padding: $spacer * 4 0;
+  @include mobile{
+    padding: $spacer * 2.5 0;
+  }
+  color: map-get($color-lighten-black, 85);
+  &__title{
+    font-size: $spacer * 2.5;
+    margin-bottom: $spacer * 2;
+    @include mobile{
+      margin-bottom: $spacer * 1;
+    }
+  }
+  &__caption{
+    font-size: $spacer * 1.25;
+  }
+  @include mobile{
+    &__title {
+      font-size: $spacer * 2;
+    }
+    &__caption {
+      font-size: $spacer * 1;
+}
+
+  }
+}
+
+.carousel{
+  background-color:  map-get($color-lighten-black, 25);
+  &__item__group{
+    justify-content: space-evenly;
+    @media (max-width:1320px){
+      flex-direction: column;
+      align-items: center;
+    }      
+  }
+  &__item__container{
+    align-items: stretch;
+    border: 3px solid map-get($color-darken-primary, 100);
+    background-image: linear-gradient(to bottom, map-get($color-lighten-secondary, 50), map-get($color-lighten-secondary, 25));
+    & .item{
+      &__img{
+        border-radius: 50%;
+        width: 100%;
+      }
+      &__content{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      &__caption{
+        font-weight: 500;
+        width: 100%;
+        @include mobile{
+          font-size: 8px !important;
+        }
+      }
+      &__name{
+        margin-right: $spacer * 1.2;
+        @include mobile{
+          margin-right: $spacer * .5;
+          font-size: 4px !important;
+        }
+      }
+    }
+  }
+}
+
+.carousel-control-prev{
+  left: -80px !important;
+  @include pad{
+    left: -0px !important;
+  }
+  @include mobile{
+    margin-left: -20px !important;
+  }
+}
+.carousel-control-next{
+  right: -80px !important;
+  @include pad {
+    right: -0px !important;
+  }
+  @include mobile {
+    margin-right: -20px !important;
+  }
+}

@@ -1,4 +1,58 @@
 <template lang="">
+  <section class="products">
+    <div v-if="!products.length" class="position-relative" style="height: 75vh">
+      <Loading
+        :active="isLoading"
+        :loader="loader"
+        :is-full-page="fullPage"
+        :color="color"></Loading>
+    </div>
+    <ul v-else class="products__container container-auto">
+      <li v-for="(item, key) in products" :key="'item' + key" class="product__item">
+        <div class="product__img"
+        :style="{backgroundImage: `url(${item.imageUrl})`}"
+        ></div>
+        <div class="product__body">
+          <div class="product__body__top d-flex">
+            <div class="product__data">
+              <p class="product__series">2019 Bicycle</p>
+              <h3 class="product__title mb-3">{{ item.title}}</h3>
+              <div class="product__rating">
+                <template
+                  v-for="(star , key) in 5" :key="'star' + key">
+                    <span
+                      class="fs-6 text-warning"
+                      :class="{
+                        'bi-star-fill': item.rating >= star,
+                        'bi-star': star > item.rating,
+                      }"></span>
+                </template>
+              </div>
+            </div>
+            <p class="product__price">{{ `NT $ ${currency(item.price)}` }}</p>
+          </div>
+          <div class="product__body__bottom d-flex justify-content-between">
+            <div class="product__num">
+              <button type="button" class="product__num__reduce"
+              @click="item.qty -= 1" :disabled="item.qty === 1">
+                <span class="material-symbols-outlined">remove</span>
+              </button>
+              <span class="product__num__value">{{ item.qty }}</span>
+              <button type="button" class="product__num__add"
+              @click="item.qty += 1">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
+            <button type="button" class="product__addCart d-flex btn btn-primary border-0"
+            @click.prevent="addToCart(item.id)">
+              加入購物車
+              <span class="material-symbols-outlined">add_shopping_cart</span>
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
   <nav class="navbar navbar-expand-lg navbar-light justify-content-center bg-background sticky-top" style="padding-top:64px">
     <div class="navbar-nav category flex-row overflow-auto navbar-custom-scroll">
       <a class="nav-item nav-link category-item text-nowrap px-2" href="#" @click="categoryActive" @click.prevent="getProducts()">所有產品</a>
@@ -8,14 +62,7 @@
         @click="categoryActive" @click.prevent="getProducts(item)">{{ item }}</a>
     </div>
   </nav>
-  <div v-if="!products.length" class="position-relative" style="height: 75vh">
-    <Loading
-      :active="isLoading"
-      :loader="loader"
-      :is-full-page="fullPage"
-      :color="color"></Loading>
-  </div>
-  <div v-else class="container">
+  <div class="container">
     <div class="row">
       <div v-for="(item, key) in products" :key="'item' + key" class="col-12 col-sm-6 col-lg-4">
         <div class="productItem border-0 mb-4 position-relative scale overflow-hidden">
@@ -81,7 +128,9 @@ import LoadingComponent from '@/mixins/LoadingComponentMixin';
 import emitter from '@/utils/emitter';
 // 引入dialog-modal
 import dialogModal from '@/components/front/DialogModal.vue';
+
 import dialogMixin from '@/mixins/dialogMixin';
+import currencyMixin from '@/mixins/currencyMixin';
 
 export default {
   data() {
@@ -126,6 +175,10 @@ export default {
         .then((res) => {
           // 取得分類商品資料，存放products，準備渲染畫面
           this.products = res.data.products;
+          // 該分頁的所有產品資料，加上qty屬性
+          this.products.forEach((item, index) => {
+            this.products[index].qty = 1;
+          });
           this.isLoading = false;
         })
         .catch((err) => {
@@ -220,55 +273,10 @@ export default {
         });
     },
   },
-  mixins: [dialogMixin, LoadingComponent],
+  mixins: [currencyMixin, dialogMixin, LoadingComponent],
   unmounted() {
     emitter.off('refresh-favorite');
   },
 };
 </script>
-<style lang="scss">
-.scale {
-  .img{
-    transition: all 0.3s ease-in-out;
-  }
-  &:hover {
-    .img {
-      transition: all 0.3s ease-in-out;
-      transform:translateY(-30px);
-    }
-  };
-};
-.productItem{
-  &:hover{
-    .star-rating{
-      transform:translateX(0px);
-    };
-    .card-body{
-      transform:translateY(-30px);
-    };
-    .icon{
-      transform:translateX(0px);
-    }
-  }
-  .star-rating{
-    transform:translateX(80px);
-    transition: all 0.3s ease-in-out;
-  };
-  .card-body{
-    transition: all 0.3s ease-in-out;
-  };
-  .icon{
-    transform:translateX(-56px);
-    transition: all 0.3s ease-in-out;
-  }
-};
-
-.category-item {
-  border-bottom: 2px solid transparent;
-}
-
-.category-item-active{
-  // font-weight: bold;
-  border-bottom: 2px solid #005792;
-}
-</style>
+<style lang=""></style>

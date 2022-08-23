@@ -1,24 +1,27 @@
-# project2022
+# 2022夏季切版直播班專題
+# 自行車店家官網
 
-## Project setup
+## 專題緣由
 ```
-npm install
-```
+身為自行車運動愛好者，試著思考著建立一間線上＋線下的自行車店，該有哪些服務？
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+讓顧客能獲得更多體驗感受，讓商家能創造更多消費流量。
 ```
 
-### Compiles and minifies for production
+## 專題資訊
 ```
-npm run build
+[使用者故事、網站地圖](https://discord.com/channels/801807326054055996/992278284903649320/994145802232528897).
+
+[線稿圖](https://discord.com/channels/801807326054055996/992278284903649320/994145802232528897).
+
+[figma設計稿](https://www.figma.com/file/0qDaoEKzVBu0KzVpzCs8OA/自行車店家官網?node-id=0%3A1).
 ```
 
-### Lints and fixes files
+## 開發頁面、功能
 ```
-npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 專題簡報
+```
+```
+
