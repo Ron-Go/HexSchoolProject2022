@@ -4,6 +4,12 @@
   position: relative;
   height: 100vh;
   background: rgba(234, 234, 234, 1);
+  // 因應header的sticky-top，header無法和banner重疊
+  // 將banner部分往y軸偏移
+  margin-top: -88px;
+    @include pad{
+      margin-top: -64px;
+  }
 }
 
 // banner__container高度，要減去banner__handline的高度（calc(100vh - 176px)）
@@ -13,9 +19,9 @@
 .banner{
   &__container{
     position: relative;
-    height: calc(100vh - 176px);
+    height: calc(100vh - 160px);
     @include mobile{
-      height: calc(100vh - 276px);
+      height: calc(100vh - 260px);
     }
     // 風景圖-PNG圖片（偽元素，讓底色透出）
     &::before{
@@ -25,7 +31,7 @@
       bottom: 0px;
       left: 0px;
       right: 0px;
-      background-attachment: fixed;
+      // background-attachment: fixed;
       background-image: url(https://storage.googleapis.com/vue-course-api.appspot.com/vue2022ron/1660103430519.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=SRJFUSeayxo6nIgVjeuTKJVi385wI1IJlpH3afM38mq52r8JwI3zsjs8ZywC%2BR0kcxpFG%2Bq2sRoWFDvSb1nwP8gUY2ocW7ox7ISNYwS8kZDSh%2BRt4LcxeukAS%2BqsWrWqGiSHPG0FmrR8sYprDOaEsDc80uHyg4MtRiAi0p%2FUc557YKA8kMefE5lFwi5TdFwc91Elf0h0kCgoGJIOV8OdokFlztugVW%2BHk5MiQxCEVfRg7zuBik4gI6BJvLIpaT2FUA176mtrhZZ5alVGpL%2Fc6u8VKcPwe4Uswph3r0%2Fe%2BvOSOx8DXdVdufWqNkZPqsvg7ApVYbetWXg6D11fT8BKFA%3D%3D);
       @include mobile{
         border: 1px solid rgba(0, 0, 0, 0.1);

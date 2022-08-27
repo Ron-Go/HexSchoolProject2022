@@ -1,31 +1,165 @@
 .products{
-  padding-top: 100px;
+  // 因應header的sticky-top，header無法和banner重疊
+  // 將banner部分往y軸偏移
+  margin-top: -88px;
+    @include pad{
+      margin-top: -64px;
+  }
+}
+.products{
+  &__category{
+    width: 100%;
+    text-align: center;
+    // sticky-top的位置在top:72px
+    top: 72px !important;
+    background-color: #eaeaea;
+    &__list{
+      width: 40%;
+      justify-content: space-between;
+      align-items: center;
+      padding: $spacer * 1.5 0;
+    }
+    &__item{
+      width: 20%;
+      text-align: center;
+    }
+  }
+  @include pad{
+    &__category{
+      top: 48px !important;
+      z-index: 1000 !important;
+      &__list{
+        width: 75%;
+        padding: $spacer * .5 0;
+      }
+      &__item{
+        width: 15%;
+      }
+    }
+  }
+  @include mobile{
+    &__category{
+      top: 48px !important;
+      &__list{
+        width: 100%;
+        padding: $spacer * .5 0;
+      }
+      &__item{
+        width: 15%;
+      }
+    }
+  }
+}
+
+.products{
+  &__category{
+    &__item{
+      .item__link{
+        display: block;
+        color: $color-font-category;
+        transition: all 0.3s ease-in-out;
+        @include mobile{
+          font-size: $spacer * 1;
+        }
+        &:hover{
+          color: black;
+          font-weight: 700;
+        }
+        &--active{
+          margin-top: -10px;
+          font-weight: 600;
+          color: black;
+        }
+      }
+    }
+  }
+}
+
+.products{
+  padding-top: 88px;
+  @include pad{
+    padding-top: 64px;
+  }
+  @include mobile{
+    padding-top: 63px;
+  }
   background-color: #eaeaea;
   &__container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    li:nth-of-type(odd), li:nth-of-type(even){
-      margin-bottom: 24px;
+    // justify-content: space-between;
+    .product__item:not(:nth-child(3n + 1)){
+      margin-left: $spacer * 1.5;
+    }
+    .product__item:nth-of-type(odd), li:nth-of-type(even){
+      margin-bottom: $spacer * 1.5;
     }
   }
 }
 
 .product{
   &__item{
+    position: relative;
     width: 32.099%;
     background-color: $color-bgc-prooduct-item;
+    @include pad{
+      width: 48.2145%;
+    }
+    @include mobile{
+      width: 100%;
+    }
+  }
+  &__favorite{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    .favorite{
+      font-variation-settings: 'FILL' 0;
+      color: $color-bgc-produce-fav;
+      transition: all 0.3 ease-in-out !important;
+      &--fill{
+        font-variation-settings: 'FILL' 1;
+        color: $color-bgc-produce-fav-fill;
+        &:hover{
+          font-size: 32px;
+          font-weight: 900;
+        }
+      }
+      &:hover{
+        font-size: 32px;
+        font-weight: 900;
+      }
+    }
   }
   &__img{
     padding-top: 133.414%;
+    @include mobile{
+      padding-top: 133.640%;
+    }
     background-size: cover;
     background-position: right center;
     background-repeat: no-repeat;
   }
   &__body{
     padding: $spacer * 2.5 $spacer * 1.5;
+    @include pad{
+      padding: $spacer * 2.5 $spacer * 1;
+    }
+    @include mobile{
+      padding: $spacer * 2.5 $spacer * 1;
+    }
+    background-color: $color-bgc-prooduct-item;
     &__top{
+
+    }
+    &__center{
       justify-content: space-between;
+      align-items: flex-end;
+      // background-color: lightgray;
+    }
+    &__bottom{
+      display: flex;
+      padding-top: $spacer * 2;
     }
   }
   &__series{
@@ -38,11 +172,26 @@
     font-weight: 700;
   }
   &__rating{
-
+    line-height: 16px;
+    & > span{
+      line-height: 1;
+    }
+    .star{
+      font-variation-settings: 'FILL' 1;
+      &--fill{
+        font-variation-settings: 'FILL' 0;
+      }
+    }
   }
   &__price{
     margin-top: auto;
     font-size: $font-size-base * 1.5;
+    @include pad{
+      font-size: $font-size-base * 1.25;
+    }
+    @include mobile{
+      font-size: $font-size-base * 1.25;
+    }
     font-weight: 700;
   }
   &__num{
@@ -52,6 +201,7 @@
       padding: 9px;
       border: 1px solid $color-border-produce-num;
       line-height: 0;
+      background-color: $color-bgc-qty-button;
     }
     &__reduce{
       border-radius: 4px 0px 0px 4px;
@@ -69,16 +219,37 @@
       line-height: 44px;
       text-align: center;
       background-color: $color-bgc-produce-value;
+      @include pad{
+        padding: 0 16px;
+        line-height: 38px;
+      }
+      @include mobile{
+        padding: 0 16px;
+        line-height: 38px;
+      }
     }
   }
   &__addCart{
-    align-items: center;
     padding: $spacer * .25 $spacer * .5 !important;
     font-weight: 700 !important;
     & > span{
       margin-top: auto;
       margin-bottom: auto;
       margin-left: 8px;
+    }
+    @include pad{
+      line-height: 30px !important;
+      font-size: $spacer * 1.25 !important;
+      & > span{
+        line-height: 24px;
+      }
+    }
+    @include mobile{
+      line-height: 30px !important;
+      font-size: $spacer * 1.25 !important;
+      & > span{
+        line-height: 24px;
+      }
     }
   }
 }

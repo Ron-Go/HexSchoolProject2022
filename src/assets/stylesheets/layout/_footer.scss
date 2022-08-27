@@ -82,10 +82,11 @@
   }
 }
 
-@include mobile{
-  .footer{
-    &__contact{
-      &__address, &__tel{
+.footer{
+  &__contact{
+    &__address, &__tel{
+      color: $color-font-footer-address;
+      @include mobile{
         text-align: center;
       }
     }

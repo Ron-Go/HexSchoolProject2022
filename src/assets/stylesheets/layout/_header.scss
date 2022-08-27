@@ -132,6 +132,11 @@
         justify-content: center;
         padding: $spacer * .5 0;
         // background-color: #eaeaea;
+        &__item{
+          &__link{
+            pointer-events: none;
+          }
+        }
       }
     }
     .active{
@@ -139,7 +144,22 @@
       opacity: 1;
     }
   }
+}
 
+@include mobile{
+  .header{
+    position: relative;
+    &__container{
+      position: static;
+    }
+    .nav{
+      width: 100%;
+    }
+    .active{
+      top: 56px;
+      opacity: 1;
+    }
+  }
 }
 
 

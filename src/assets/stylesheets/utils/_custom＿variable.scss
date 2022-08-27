@@ -69,16 +69,37 @@ $color-font-banner-bgText: $white;
 $color-font-banner-title: $white;
 $color-font-btn: #ffffff;
 $color-font-product-series: map-get($color-lighten-primary, 100);
+$color-font-footer-address: #ffffff;
+$color-font-pagination: map-get($color-lighten-primary, 100);
+$color-font-pagination-active: map-get($color-lighten-black, 10);
+$color-font-pagination-mute: map-get($color-lighten-black, 25);
+$color-font-category: map-get($color-lighten-black, 50);
+$color-font-dialog: map-get($color-lighten-black, 10);
+
+
+
 
 
 $color-border-base: #000000;
 $color-border-produce-num: map-get($color-lighten-black, 25);
+$color-border-pagination: map-get($color-lighten-black, 25);
+$color-border-pagination-active: map-get($color-lighten-primary, 100);
+
 
 
 
 $color-bgc-input: #fbf2f2;
+$color-bgc-base: #eaeaea;
 $color-bgc-prooduct-item: map-get($color-darken-white, 100);
+$color-bgc-qty-button: #ffffff;
 $color-bgc-produce-value: map-get($color-lighten-black, 10);
+$color-bgc-produce-fav: map-get($color-lighten-black, 50);
+$color-bgc-produce-fav-fill: map-get($color-lighten-primary, 100);
+$color-bgc-pagination-hover: map-get($color-lighten-black, 25);
+$color-bgc-pagination-active: map-get($color-lighten-primary, 100);
+$color-bgc-dialog-logo: map-get($color-lighten-primary, 100);
+$color-bgc-dialog-bg: map-get($color-lighten-black, 50);
+
 
 
 

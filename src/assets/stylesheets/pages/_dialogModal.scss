@@ -1,0 +1,17 @@
+dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.dialog{
+  &__addCart, &__favorite, &__unfavorite{
+    &__logo{
+    font-size: 72px;
+    font-variation-settings: 'FILL' 1, 'wght' 400,;
+    color: $color-bgc-dialog-logo;
+    }
+    &__caption{
+    color: $color-font-dialog;
+    }
+  }
+}

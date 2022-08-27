@@ -15,13 +15,13 @@ export default {
         this.dialogModal.classList.remove('animate__zoomIn');
         // 增加zoomout效果
         this.dialogModal.classList.add('animate__zoomOut');
-      }, 1500);
+      }, 2000);
       setTimeout(() => {
         this.dialogModal.close();
         // 移除zoomout效果
         this.dialogModal.classList.remove('animate__zoomOut');
         this.dialogMode = 0;
-      }, 2000);
+      }, 2500);
     },
   },
 };

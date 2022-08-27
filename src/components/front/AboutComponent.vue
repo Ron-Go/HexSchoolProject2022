@@ -117,16 +117,16 @@ export default {
     this.scrollReveal.reveal('.about-reveal-left', {
       delay: 150,
       reset: false,
-      distance: '10px',
-      duration: 1500,
+      distance: '15px',
+      duration: 2000,
       origin: 'left',
       interval: 800,
     });
     this.scrollReveal.reveal('.about-reveal-right', {
       delay: 150,
       reset: false,
-      distance: '10px',
-      duration: 1500,
+      distance: '15px',
+      duration: 2000,
       origin: 'right',
       interval: 800,
     });

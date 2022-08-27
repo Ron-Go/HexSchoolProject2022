@@ -7,31 +7,55 @@
         :is-full-page="fullPage"
         :color="color"></Loading>
     </div>
-    <ul v-else class="products__container container-auto">
+    <div v-else class="products__category sticky-top">
+      <div class="products__category__container container-auto">
+        <ul class="products__category__list d-flex mx-auto">
+          <li class="products__category__item">
+            <a class="item__link item__link--active" href="#" @click="categoryActive" @click.prevent="getProducts()">ALL</a>
+          </li>
+          <li v-for="(item, key) in productsCategory" :key="'item' + key" class="products__category__item">
+            <a class="item__link" href="#" @click="categoryActive"
+              @click.prevent="getProducts(item)">{{ item }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ul class="products__container container-auto">
       <li v-for="(item, key) in products" :key="'item' + key" class="product__item">
+        <!-- 加入favorite -->
+        <a class="product__favorite" href="#" @click.prevent="addFavorite(item.id)">
+          <span class="material-symbols-outlined d-block fs-4"
+          :class="{
+            'favorite': !getFavorite.includes(item.id),
+            'favorite--fill': getFavorite.includes(item.id),
+            }">favorite</span>
+        </a>
         <div class="product__img"
         :style="{backgroundImage: `url(${item.imageUrl})`}"
         ></div>
         <div class="product__body">
-          <div class="product__body__top d-flex">
+          <div class="product__body__top">
             <div class="product__data">
-              <p class="product__series">2019 Bicycle</p>
-              <h3 class="product__title mb-3">{{ item.title}}</h3>
-              <div class="product__rating">
-                <template
-                  v-for="(star , key) in 5" :key="'star' + key">
-                    <span
-                      class="fs-6 text-warning"
-                      :class="{
-                        'bi-star-fill': item.rating >= star,
-                        'bi-star': star > item.rating,
-                      }"></span>
-                </template>
-              </div>
+              <p class="product__series mb-1">2019 Bicycle</p>
+              <h3 class="product__title">{{ item.title}}</h3>
+            </div>
+          </div>
+          <div class="product__body__center d-flex">
+            <div class="product__rating">
+              <!-- v-for渲染出星星（星星數最大為5） -->
+              <!-- 每次v-for，item.rating>=迴圈star數，出現實心星星 -->
+              <!-- 每次v-for，item.rating<迴圈star數，出現空心星星 -->
+              <template v-for="(star , key) in 5" :key="'star' + key">
+                    <span class="material-symbols-outlined fs-6 "
+                    :class="{
+                      'star': item.rating >= star,
+                      'star--fill': star > item.rating,
+                      }">star</span>
+              </template>
             </div>
             <p class="product__price">{{ `NT $ ${currency(item.price)}` }}</p>
           </div>
-          <div class="product__body__bottom d-flex justify-content-between">
+          <div class="product__body__bottom justify-content-between">
             <div class="product__num">
               <button type="button" class="product__num__reduce"
               @click="item.qty -= 1" :disabled="item.qty === 1">
@@ -43,7 +67,7 @@
                 <span class="material-symbols-outlined">add</span>
               </button>
             </div>
-            <button type="button" class="product__addCart d-flex btn btn-primary border-0"
+            <button type="button" class="product__addCart d-flex btn btn-primary border-0 text-white-100"
             @click.prevent="addToCart(item.id)">
               加入購物車
               <span class="material-symbols-outlined">add_shopping_cart</span>
@@ -53,72 +77,12 @@
       </li>
     </ul>
   </section>
-  <nav class="navbar navbar-expand-lg navbar-light justify-content-center bg-background sticky-top" style="padding-top:64px">
-    <div class="navbar-nav category flex-row overflow-auto navbar-custom-scroll">
-      <a class="nav-item nav-link category-item text-nowrap px-2" href="#" @click="categoryActive" @click.prevent="getProducts()">所有產品</a>
-      <!-- 用productsCategory渲染出商品分類 -->
-      <a v-for="(item, key) in productsCategory" :key="'item' + key"
-        class="nav-item nav-link category-item text-nowrap px-2" href="#"
-        @click="categoryActive" @click.prevent="getProducts(item)">{{ item }}</a>
-    </div>
-  </nav>
-  <div class="container">
-    <div class="row">
-      <div v-for="(item, key) in products" :key="'item' + key" class="col-12 col-sm-6 col-lg-4">
-        <div class="productItem border-0 mb-4 position-relative scale overflow-hidden">
-          <div class="overflow-hidden position-relative">
-              <router-link class="position-absolute w-100" :to="`product/${item.id}`"
-                style="height: 100%; z-index:1"></router-link>
-              <div
-                class="img overflow-hidden"
-                :style="{backgroundImage: `url(${item.imageUrl})`}"
-                style="height: 250px; background-size: cover; background-position: center center"></div>
-          </div>
-          <div class="card-body position-absolute px-1 py-0 bg-white" style="bottom: -30px; right: 0px; left: 0px; z-index:2">
-            <div class="card-body-top d-flex justify-content-between align-items-center mt-2">
-              <h6 class="mb-0">
-                <router-link
-                  class="link-secondary text-decoration-none"
-                  :to="`product/${item.id}`">{{ item.title }}</router-link>
-              </h6>
-              <p class="text-muted mb-0">
-                <span>$</span>
-                <span>{{ item.price }}</span>
-              </p>
-            </div>
-            <div class="card-body-bottom d-flex justify-content-between align-items-center">
-              <div class="icon">
-                <a href="#" class="bi-bag-plus fs-5 text-primary pe-3"
-                  @click.prevent="addToCart(item.id)"></a>
-                  <!-- 比對getFavorite陣列裡面有無符合的item.id -->
-                <a class="fs-5 text-center text-primary pe-auto" href="#"
-                  :class="{
-                    'bi-heart': !getFavorite.includes(item.id),
-                    'bi-heart-fill': getFavorite.includes(item.id),
-                  }"
-                  @click.prevent="addFavorite(item.id)"></a>
-              </div>
-              <div class="star-rating">
-                <template
-                  v-for="(star , key) in 5" :key="'star' + key">
-                    <span
-                      class="fs-6 text-warning"
-                      :class="{
-                        'bi-star-fill': item.rating >= star,
-                        'bi-star': star > item.rating,
-                      }"></span>
-                </template>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- 分頁 -->
+    <pagination :pagination="pagination" @send-page="selectPagination">
+    </pagination>
   <!-- dialog視窗 -->
-  <dialog-modal
-  :dialogMode="dialogMode"
-  ></dialog-modal>
+  <dialog-modal :dialogMode="dialogMode">
+  </dialog-modal>
 </template>
 
 <script>
@@ -128,6 +92,8 @@ import LoadingComponent from '@/mixins/LoadingComponentMixin';
 import emitter from '@/utils/emitter';
 // 引入dialog-modal
 import dialogModal from '@/components/front/DialogModal.vue';
+// 引入pagination元件
+import pagination from '@/components/PaginationComponent.vue';
 
 import dialogMixin from '@/mixins/dialogMixin';
 import currencyMixin from '@/mixins/currencyMixin';
@@ -143,10 +109,13 @@ export default {
       dialogMode: 0,
       // 從localStorage取得favorite資料
       getFavorite: [],
+      // 傳入元件的分頁資訊
+      pagination: {},
     };
   },
   components: {
     dialogModal,
+    pagination,
   },
   mounted() {
     this.getCategory();
@@ -174,15 +143,35 @@ export default {
         .get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/?category=${isCategory}`)
         .then((res) => {
           // 取得分類商品資料，存放products，準備渲染畫面
+          console.log(res.data);
           this.products = res.data.products;
-          // 該分頁的所有產品資料，加上qty屬性
-          this.products.forEach((item, index) => {
-            this.products[index].qty = 1;
-          });
+          this.addQtyNum();
+          // 取得分頁
+          this.pagination = res.data.pagination;
           this.isLoading = false;
         })
         .catch((err) => {
           console.dir(err);
+        });
+    },
+    // 選擇產品分頁
+    selectPagination(page = 1) {
+      this.products = [];
+      this.$router.push('products');
+      this.isLoading = true;
+      // 用query的方式，代出商品資料
+      // /?page=${ 頁數 }
+      this.axios
+        .get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/?page=${page}`)
+        .then((res) => {
+          // 取得該分頁商品資料，products
+          this.products = res.data.products;
+          // 取得分頁資訊，存放pagination
+          this.pagination = res.data.pagination;
+          this.addQtyNum();
+          this.isLoading = false;
+        })
+        .catch(() => {
         });
     },
     // 取得商品分類
@@ -199,10 +188,6 @@ export default {
               this.productsCategory.push(item.category);
             }
           });
-          setTimeout(() => {
-            this.correspondActive();
-            this.$route.query.category = '';
-          }, 50);
         })
         .catch((err) => {
           console.dir(err);
@@ -210,30 +195,23 @@ export default {
     },
     // 點擊產品分類active
     categoryActive(e) {
-      console.log(e.target.innerText);
       // 連結的父層節點
       const { parentNode } = e.target;
-      // 連結的父層元素內的所有子節點
-      const { children } = parentNode;
-      // 把所有子節點移除className，category-item-active
+      // 連結的父層元素再上一層內的所有子節點
+      const { children } = parentNode.parentNode;
+      // 把所有子節點移除className(category-item-active)
       for (let i = 0; i <= children.length - 1; i += 1) {
-        children[i].classList.remove('category-item-active');
+        children[i].childNodes[0].classList.remove('item__link--active');
       }
       // 點選的連結加上className，category-item-active
-      e.target.classList.add('category-item-active');
+      e.target.classList.add('item__link--active');
+      console.log(children);
     },
-    correspondActive() {
-      const categoryDom = document.querySelectorAll('.category')[0].children;
-      console.log(this.$route);
-      console.log(this.$route.query.category);
-      for (let i = 0; i < categoryDom.length; i += 1) {
-        if (categoryDom[i].innerText === this.$route.query.category) {
-          categoryDom[i].classList.add('category-item-active');
-          // console.log(categoryDom[i].innerText);
-        } else if (this.$route.query.category === undefined) {
-          categoryDom[0].classList.add('category-item-active');
-        }
-      }
+    // 所有產品資料，加上qty屬性
+    addQtyNum() {
+      this.products.forEach((item, index) => {
+        this.products[index].qty = 1;
+      });
     },
     // 加入最愛
     addFavorite(id) {

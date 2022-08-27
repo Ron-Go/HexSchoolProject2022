@@ -9,9 +9,11 @@
   margin: 0 auto;
   @include pad{
     max-width: 720px;
+    padding: 0 $spacer * 1.5;
   }
   @include mobile{
-    max-width: 372px;
+    max-width: 375px;
+    padding: 0 $spacer * 1.5;
   }
 }
 

@@ -1,6 +1,6 @@
 <template lang="html">
-<header class="header fixed-top pt-3" >
-  <div class="header__container container-auto d-flex justify-content-between align-items-center" :style="bgcStyle()">
+<header class="header sticky-top" style="background-color: #eaeaea;" :style="bgcStyle()">
+  <div class="header__container container-auto d-flex justify-content-between align-items-center mt-3">
     <nav class="nav" :style="bgcStyle()">
       <ul class="nav__list d-flex mb-0">
         <li class="nav__list__item">

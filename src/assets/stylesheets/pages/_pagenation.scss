@@ -1,0 +1,83 @@
+.pagination {
+  padding: $spacer * 2 0;
+  background-color: $color-bgc-base;
+  &__container{
+    width: 60%;
+  }
+  &__list{
+    width: 100%;
+    &__item:first-child{
+      width: 10%;
+    }
+    &__item:last-child{
+      width: 10%;
+    }
+    &__item{
+      width: 8%; 
+    }
+    &__item + &__item{
+      margin-left: -1px;
+    }
+    &__item .pagination__link, .pagination__previous, .pagination__next {
+      border: 1px solid $color-border-pagination;
+      background-color: #e6e6e6;
+      transition: all 0.2s ease-in-out;
+      &:hover{
+        color: $color-font-pagination;
+        background-color: $color-bgc-pagination-hover;
+      }
+    }
+    &__item > .active{
+      border: 1px solid $color-border-pagination-active;
+      background-color: $color-bgc-pagination-active;
+      color: $color-font-pagination-active;
+      &:hover{
+        border: 1px solid $color-border-pagination-active;
+        background-color: $color-bgc-pagination-active;
+        color: $color-font-pagination-active;
+      }
+    }
+  }
+  @include mobile {
+    &__container {
+      width: 100%;
+    }
+    &__list {
+      width: 100%;
+      &__item:first-child {
+        width: 10%;
+      }
+      &__item:last-child {
+        width: 10%;
+      }
+      &__item {
+        width: 10%;
+      }
+    }
+  }
+}
+
+
+.pagination{
+  &__link, &__previous, &__next{
+    display: inline-block;
+    width: 100%;
+    line-height: 48px;
+    color: $color-font-pagination;
+  }
+  &__link & > .active{
+    
+  }
+  &__previous, &__next{
+    span{
+      line-height: 48px;
+    }
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  & > a > span{
+    color: $color-font-pagination-mute;
+  }
+}
