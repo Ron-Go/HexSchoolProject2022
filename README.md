@@ -1,5 +1,4 @@
-# 2022夏季切版直播班專題 - [自行車店家官網](https://ron-go.github.io/HexSchoolProject2022/#/
-)
+# 2022夏季切版直播班專題 - [自行車店家官網](https://ron-go.github.io/HexSchoolProject2022/#/)
 
 ## 專題緣由
 ```
