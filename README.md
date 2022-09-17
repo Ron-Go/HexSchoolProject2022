@@ -8,9 +8,9 @@
 ```
 
 ## 專題資訊
-* [使用者故事、網站地圖](https://discord.com/channels/801807326054055996/992278284903649320/994145802232528897)
+* [使用者故事、網站地圖](https://whimsical.com/58PirWsW4PSsP2ye4Z7iae)
 
-* [線稿圖](https://discord.com/channels/801807326054055996/992278284903649320/994145802232528897)
+* [線稿圖](https://whimsical.com/wireframe-Y9SaRxTTVzwaMEJDw93C8e)
 
 * [figma設計稿](https://www.figma.com/file/0qDaoEKzVBu0KzVpzCs8OA/自行車店家官網?node-id=0%3A1)
 
