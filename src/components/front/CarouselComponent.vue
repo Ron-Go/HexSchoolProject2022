@@ -1,5 +1,5 @@
 <template lang="">
-  <section class="carousel">
+  <section class="carousel overflow-hidden">
     <div class="carousel-container container-auto">
       <h2 class="carousel__title text-center">好評推薦</h2>
       <p class="carousel__caption text-center">來聽聽我們服務過的車友、客人怎麼說</p>

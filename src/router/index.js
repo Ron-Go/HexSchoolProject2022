@@ -112,4 +112,9 @@ const router = createRouter({
   },
 });
 
+router.beforeEach((to, from, next) => {
+  document.title = 'keep cycling';
+  next();
+});
+
 export default router;

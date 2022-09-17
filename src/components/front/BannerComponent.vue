@@ -1,11 +1,11 @@
 <template lang="html">
-  <section class="banner">
+  <section class="banner overflow-hidden">
     <div class="banner__container">
       <!-- :style="{'background-position-y': `${scrollTop}px`}" -->
       <div class="banner__container__bg d-flex justify-content-center align-items-end">
-        <p class="bg__text text-center fw--bold mb-0 banner-reveal">CYCLING</p>
+        <p class="bg__text text-center fw--bold mb-0 reveal-top">CYCLING</p>
       </div>
-      <div class="banner__container__main d-flex justify-content-center align-items-end banner-reveal"></div>
+      <div class="banner__container__main d-flex justify-content-center align-items-end reveal-down"></div>
     </div>
     <div class="banner__handline bg--secondary--100">
       <div class="banner__handline__container container-auto d-flex">
@@ -37,10 +37,18 @@ export default {
     emitter.on('homeView-scrollTop', (value) => {
       this.scrollTop = -(value / 4);
     });
-    this.scrollReveal.reveal('.banner-reveal', {
-      delay: 300,
+    this.scrollReveal.reveal('.reveal-top', {
+      delay: 200,
       reset: false,
-      distance: '150px',
+      distance: '400px',
+      duration: 2500,
+      origin: 'top',
+      interval: 1000,
+    });
+    this.scrollReveal.reveal('.reveal-down', {
+      delay: 700,
+      reset: false,
+      distance: '200px',
       duration: 2500,
       origin: 'bottom',
       interval: 1000,

@@ -10,6 +10,8 @@ export default {
       loader: 'dots',
       fullPage: false,
       color: '#D96500',
+      backgroundColor: '#eaeaea',
+      opacity: 1.0,
     };
   },
   components: {

@@ -18,6 +18,7 @@
       justify-content: space-between;
       align-items: center;
       padding: $spacer * 1.5 0;
+      z-index: 100;
     }
     &__item{
       width: 20%;
@@ -27,7 +28,7 @@
   @include pad{
     &__category{
       top: 48px !important;
-      z-index: 1000 !important;
+      z-index: 100 !important;
       &__list{
         width: 75%;
         padding: $spacer * .5 0;
@@ -87,9 +88,9 @@
   &__container{
     display: flex;
     flex-wrap: wrap;
-    // justify-content: space-between;
-    .product__item:not(:nth-child(3n + 1)){
-      margin-left: $spacer * 1.5;
+    justify-content: space-between;
+    @include pad{
+      justify-content: space-between;
     }
     .product__item:nth-of-type(odd), li:nth-of-type(even){
       margin-bottom: $spacer * 1.5;
@@ -107,6 +108,12 @@
     }
     @include mobile{
       width: 100%;
+    }
+    &__click{
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
     }
   }
   &__favorite{
@@ -137,7 +144,7 @@
       padding-top: 133.640%;
     }
     background-size: cover;
-    background-position: right center;
+    background-position: center center;
     background-repeat: no-repeat;
   }
   &__body{
@@ -197,6 +204,7 @@
   &__num{
     display: flex;
     align-items: stretch;
+    z-index: 99;
     &__reduce, &__add{
       padding: 9px;
       border: 1px solid $color-border-produce-num;
@@ -232,6 +240,7 @@
   &__addCart{
     padding: $spacer * .25 $spacer * .5 !important;
     font-weight: 700 !important;
+    z-index: 99;
     & > span{
       margin-top: auto;
       margin-bottom: auto;

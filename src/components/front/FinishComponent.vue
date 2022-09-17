@@ -12,61 +12,66 @@
       :is-full-page="fullPage"
       :color="color"></Loading>
       <div v-if="!finishPayment && !order.is_paid">
-        <h5 class="text-center mb-3">選擇付款方式</h5>
+        <h2 class="text-center mb-3">選擇付款方式</h2>
         <div class="d-flex flex-row justify-content-evenly mb-3">
           <div class="form-check">
-            <input type="radio"  v-model="paymentMode" class="form-check-input me-2" id="radio01" value="creditCard">
-            <label for="radio01" class="form-check-label">信用卡</label>
+            <input type="radio"  v-model="paymentMode" class="form-check-input me-3" id="radio01" value="creditCard">
+            <label for="radio01" class="form-check-label fw--medium fs-5">信用卡</label>
           </div>
           <div class="form-check">
-            <input type="radio"  v-model="paymentMode" class="form-check-input me-2" id="radio02" value="paypel">
-            <label for="radio02" class="form-check-label">Paypel</label>
+            <input type="radio"  v-model="paymentMode" class="form-check-input me-3" id="radio02" value="paypel">
+            <label for="radio02" class="form-check-label fw--medium fs-5">Paypel</label>
           </div>
         </div>
         <div class="text-center">
           <button type="button" class="btn btn-primary text-white"
-            :disabled="paymentMode !== 'creditCard' && paymentMode !== 'paypel'"
-            @click="goPayment">付款去</button>
+          :class="{
+            'd-none': paymentMode !== 'creditCard' && paymentMode !== 'paypel'
+          }"
+          @click="goPayment">付款去</button>
         </div>
       </div>
       <h5 v-else class="text-danger text-center py-1">
-        <span class="d-block">您已完成付款</span>
-        <span class="d-block pt-3">將盡快安排商品出貨</span>
+        <span class="text--danger fw--bold">您已完成付款<br>將盡快安排商品出貨</span>
       </h5>
     </div>
     <table class="table my-5">
       <tbody>
         <tr>
-          <th class="py-3">訂單編號：</th>
-          <td class="text-danger fw-bold py-3">{{ order.id }}</td>
+          <th class="text-end fw--medium py-3">訂單編號：</th>
+          <td class="text--danger fw--bold py-3">{{ order.id }}</td>
         </tr>
         <tr>
-          <th class="py-3">訂單建立時間：</th>
-          <td v-if="order.create_at" class="fw-bold py-3">{{ convertDate(order.create_at) }}</td>
+          <th class="text-end fw--medium py-3">訂單建立時間：</th>
+          <td v-if="order.create_at" class="fw--bold py-3">{{ convertDate(order.create_at) }}</td>
         </tr>
         <template v-if="order.user">
           <tr>
-            <th class="py-3">收件人姓名：</th>
+            <th class="text-end fw--medium py-3">收件人姓名：</th>
             <td class="py-3">{{ order.user.name }}</td>
           </tr>
           <tr>
-            <th class="py-3">收件人電話：</th>
+            <th class="text-end fw--medium py-3">收件人電話：</th>
             <td class="py-3">{{ order.user.tel }}</td>
           </tr>
           <tr>
-            <th class="py-3">收件人地址：</th>
+            <th class="text-end fw--medium py-3">收件人地址：</th>
             <td class="py-3">{{ order.user.address }}</td>
           </tr>
         </template>
         <tr>
-          <th class="py-3">購買商品</th>
+          <th class="text-end fw--medium py-3">購買商品：</th>
           <td>
             <div v-for="(item, key) in order.products" :key="'key' + key">
-              <div class="d-flex flex-column justify-content-between p-3 bg-light mt-2">
-                <h6>{{ item.product.title }}</h6>
+              <div class="d-flex flex-column justify-content-between p-3 bg--bggray mt-2">
+                <h6 class="mb-2">{{ item.product.title }}</h6>
                 <div class="d-flex justify-content-between">
-                  <span>{{`數量：${item.qty}`}}</span>
-                  <span>{{`總價：${item.final_total}`}}</span>
+                  <p class="fs-6">數量：
+                    <span class="text--danger fw--medium fs-6">{{ `${item.qty}` }}</span>
+                  </p>
+                  <p class="fs-6">總價：
+                    <span class="text--danger fw--medium fs-6">{{ `$${currency(item.final_total)}` }}</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -74,15 +79,15 @@
         </tr>
         <template v-if="!finishPayment">
           <tr>
-            <th class="py-3">付款總金額</th>
-            <td class="py-3">{{ order.total }}</td>
+            <th class="text-end fw--medium py-3">付款總金額：</th>
+            <td class="text--danger fw--bold py-3">${{ currency(order.total) }}</td>
           </tr>
           <tr>
-            <th class="py-3">付款狀態</th>
-            <td class="py-3 fw-bold"
+            <th class="text-end fw--medium py-3">付款狀態：</th>
+            <td class="py-3 fw--bold"
               :class="{
-                'text-success': order.is_paid,
-                'text-danger': !order.is_paid,
+                'text--success': order.is_paid,
+                'text--danger': !order.is_paid,
                 }">
               {{ `${order.is_paid ? '已付款' : '未付款'}` }}
             </td>
@@ -98,6 +103,7 @@
 import LoadingPlugin from '@/mixins/LoadingComponentMixin';
 import progressBar from '@/components/front/ProgressBar.vue';
 import convertDate from '@/mixins/convertDateMixin';
+import currency from '@/mixins/currencyMixin';
 
 export default {
   data() {
@@ -154,7 +160,7 @@ export default {
         });
     },
   },
-  mixins: [convertDate, LoadingPlugin],
+  mixins: [convertDate, LoadingPlugin, currency],
 };
 </script>
 <style lang="">

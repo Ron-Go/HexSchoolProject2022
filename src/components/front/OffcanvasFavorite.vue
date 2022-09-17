@@ -1,13 +1,13 @@
 <template lang="">
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFavorite" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header bg-success">
-      <h5 class="text-light mb-0" id="offcanvasRightLabel">我的最愛</h5>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div class="offcanvas-header bg--primary">
+      <h4 class="text--light fw--medium" id="offcanvasRightLabel">我的最愛</h4>
+      <button type="button" class="btn-close btn-close-white fs-5" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body bg-bggray">
       <div v-if="!favorite.length" class="container text-center">
-        <h5>目前無追蹤商品</h5>
-        <router-link class="btn btn-success mx-auto" to="/front/products" @click.prevent="$emit('hide-favorite')">前往購物</router-link>
+        <p class="fs-4 mb-4">目前無追蹤商品</p>
+        <router-link class="btn btn-primary mx-auto" to="/front/products" @click.prevent="$emit('hide-favorite')">前往購物</router-link>
       </div>
       <div v-else class="container position-relative">
         <Loading
@@ -28,19 +28,20 @@
             </div>
             <div class="col-7 position-relative d-flex flex-column justify-content-between p-3">
               <div class="d-flex justify-content-between">
-                <p class="fw-bold">{{ item.title }}</p>
+                <p class="fs-5 mb-2 fw-bold">{{ item.title }}</p>
                 <button type="button" class="position-absolute btn-close" @click="favorite.splice(key, 1)" style="top: 0; right: 0;"></button>
               </div>
               <div>
                 <div class="row d-flex justify-content-center">
                   <div class="col-6">
-                    <router-link class="btn btn-info w-100" :to="`/front/product/${item.id}`">
-                      <span class="bi-zoom-in"></span>
+                    <router-link class="btn btn-outline-secondary btm-sm w-100" :to="`/front/product/${item.id}`" @click.prevent="$emit('hide-favorite')">
+                      <!-- <span class="bi-zoom-in"></span> -->
+                      <span class="material-symbols-outlined d-block fs-4">zoom_out_map</span>
                     </router-link>
                   </div>
                   <div class="col-6">
-                    <button type="button" class="btn btn-info w-100" @click="favoriteToCart(item.id, key)">
-                      <span class="bi-cart3"></span>
+                    <button type="button" class="btn btn-outline-secondary btm-sm w-100" @click="favoriteToCart(item.id, key)">
+                      <span class="material-symbols-outlined d-block fs-4">add_shopping_cart</span>
                     </button>
                   </div>
                 </div>

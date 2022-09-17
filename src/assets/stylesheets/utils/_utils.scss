@@ -31,14 +31,12 @@
   }
 }
 
-
-
+// color-secondary-opacity
 @each $key, $value in $color-lighten-secondary{
   .bg--secondary--#{$key} {
     background-color: $value;
   }
 }
-
 
 // font-weight
 @each $key, $value in $font-weight-value {
@@ -47,6 +45,25 @@
   }
 }
 
+// text-color
+@each $key, $value in $theme-colors {
+  .text--#{$key} {
+    color: $value;
+  }
+}
+
+// bg-color
+@each $key, $value in $theme-colors {
+  .bg--#{$key} {
+    background-color: $value;
+  }
+}
 
 
+.bg-transparent {
+  background-color: transparent;
+}
 
+.btn .btn-primary{
+  color: #ffffff;
+}

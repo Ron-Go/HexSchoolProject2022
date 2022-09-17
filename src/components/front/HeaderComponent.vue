@@ -1,5 +1,6 @@
 <template lang="html">
 <header class="header sticky-top" style="background-color: #eaeaea;" :style="bgcStyle()">
+  <div class="header__top" :style="bgcStyle()"></div>
   <div class="header__container container-auto d-flex justify-content-between align-items-center mt-3">
     <nav class="nav" :style="bgcStyle()">
       <ul class="nav__list d-flex mb-0">
@@ -31,12 +32,24 @@
       </li>
       <li class="header__connect__item">
         <a class="text-decoration-none" href="#" @click.prevent="showFavorite">
-          <span class="d-block material-symbols-outlined favorite fs-4 color--black--85">favorite</span>
+          <span
+          class="d-block material-symbols-outlined favorite fs-4 color--black--85"
+          :class="{
+            'favorite--Emtpy': !favoriteQty,
+            'favorite--full': favoriteQty,
+          }"
+          >favorite</span>
         </a>
       </li>
       <li class="header__connect__item">
         <a class="text-decoration-none" href="#" @click.prevent="showOffcanvas">
-          <span class="d-block material-symbols-outlined cart fs-4 color--black--85">shopping_cart</span>
+          <span
+          class="d-block material-symbols-outlined cart fs-4 color--black--85"
+          :class="{
+            'cart--Emtpy': !cartQty,
+            'cart--full': cartQty,
+          }"
+          >shopping_cart</span>
         </a>
       </li>
     </ul>

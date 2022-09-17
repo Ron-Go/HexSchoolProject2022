@@ -1,22 +1,4 @@
 
-// @import"./base/reset";
-// @import"./base/fontStyle";
-
-// @import"./utils/variable";
-// @import"./base/base";
-
-// @import"./utils/mixin";
-
-// @import"./layout/header";
-// @import"./layout/footer";
-// @import"./layout/series";
-
-// @import"./pages/index";
-// @import"./pages/question";
-// @import"./pages/product";
-
-// @import"./components/button";
-// @import"./utils/utils";
 // -----
 
 @import './base/reset';
@@ -37,13 +19,14 @@
 @import './layout/banner';
 @import './layout/footer';
 
-// page
+// page(component)
 @import './pages/index';
 @import './pages/about';
 @import './pages/carousel';
 @import './pages/products';
 @import './pages/pagenation';
 @import './pages/dialogModal';
+@import './pages/product';
 
 // Layout & components
 // @import '~bootstrap/scss/root';

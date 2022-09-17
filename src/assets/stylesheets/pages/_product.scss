@@ -1,0 +1,56 @@
+.bi-caret-left-fill, .bi-caret-right-fill{
+  transition: all 0.3s ease-in-out;
+}
+
+.product{
+  .carousel-control-prev{
+    left: 0px !important;
+    @include mobile{
+      left: 20px !important;
+    }
+    &:hover{
+      .bi-caret-left-fill{
+        color: $orange;
+      }
+    }
+  } 
+  
+  .carousel-control-next{
+    right: 0px !important;
+    @include mobile{
+      right: 20px !important;
+    }
+    &:hover {
+      .bi-caret-right-fill {
+        color: $orange;
+      }
+    }
+  }
+}
+
+.accordion-button{
+  .badge{
+    background-color: map-get($theme-colors, primary );
+  }
+}
+
+.btn-outline-primary{
+  &:hover{
+    color: #ffffff !important;
+  }
+}
+
+.bi-heart, .bi-heart-fill{
+  color: $primary;
+}
+
+.add__favorite {
+  font-variation-settings: 'FILL' 0;
+  color: $primary;
+}
+
+.add__favorite--fill {
+  font-variation-settings: 'FILL' 1;
+  color: $primary;
+}
+

@@ -11,49 +11,53 @@
       <h4 class="text-center my-5">{{ dataConfirm ? '確認訂單資料' : '輸入訂單資料'}}</h4>
       <div class="col-md-6 mb-5">
         <h5 class="mb-3">訂單明細</h5>
-        <div class="border border-secondary p-3 pb-0">
+        <div class="border border--secondary p-3 pb-0">
           <div v-for="(item, key) in cart.products" :key="'item' + key"
-            class="bg-light p-2 mb-3">
+            class="bg--light p-3 mb-3">
             <div>
-              <p>{{ item.product.title }}</p>
+              <p class="fs-5">{{ item.product.title }}</p>
             </div>
             <div class="d-flex justify-content-between">
-              <p class="d-block mb-0">數量：{{ item.qty }}</p>
-              <p class="d-block mb-0">總價：{{`$${currency(item.final_total)}`}}</p>
+              <p class="d-block fs-5 fw--medium mb-0">數量：
+                <span class="text--danger">{{ item.qty }}</span>
+              </p>
+              <p class="d-block fw--medium fs-5 mb-0">總價：
+                <span class="text--danger">{{ `$${currency(item.final_total)}` }}</span>
+              </p>
             </div>
           </div>
           <table class="table">
             <tbody>
               <tr>
-                <th>小計</th>
-                <td class="text-end">{{`$${currency(cart.total)}`}}</td>
+                <th class="fs-5 text-start fw--medium">小計</th>
+                <td class="fs-5 fw--bold text-end">{{`$${currency(cart.total)}`}}</td>
               </tr>
               <tr>
-                <th>折扣</th>
-                <td class="text-success fw-bold text-end">{{`$${currency(cart.total - cart.finalTotal)}`}}</td>
+                <th class="fs-5 text-start fw--medium">折扣</th>
+                <td class="fs-5 text--success fw--bold text-end">{{`$${currency(cart.total - cart.finalTotal)}`}}</td>
               </tr>
               <tr>
-                <th>總價</th>
-                <td class="text-danger fw-bold text-end">{{`$${cart.finalTotal}`}}</td>
+                <th class="fs-5 text-start fw--medium">全部總價</th>
+                <td class="fs-5 text--danger fw--bold text-end">{{`$${cart.finalTotal}`}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
       <div v-if="!dataConfirm" class="col-12 col-md-6">
-        <h5 class="mb-3">收件人資料</h5>
+        <h5 class="fw--medium mb-3">收件人資料</h5>
         <v-form v-slot="{ errors }" ref="formDom" @submit="onCheckOrder">
           <!-- name -->
           <div class="row">
             <div class="col-6 mb-3">
               <label for="name" class="form-label">姓名</label>
-              <v-field id="name" name="姓名" type="text" class="form-control" :class="{ 'is-invalid': errors['姓名'] }"
+              <v-field id="name" name="姓名" type="text" class="form-control fs-6 mt-2" :class="{ 'is-invalid': errors['姓名'] }"
                 placeholder="請輸入姓名" rules="required" v-model="orderData.user.name"></v-field>
               <error-message name="姓名" class="invalid-feedback"></error-message>
             </div>
             <div class="col-6 mb-3">
               <label for="tel" class="form-label">電話</label>
-              <v-field id="tel" name="電話" type="tel" class="form-control" :class="{ 'is-invalid': errors['電話'] }"
+              <v-field id="tel" name="電話" type="tel" class="form-control fs-6 mt-2" :class="{ 'is-invalid': errors['電話'] }"
                 placeholder="請輸入電話" :rules="isPhone" v-model="orderData.user.tel"></v-field>
               <error-message name="電話" class="invalid-feedback"></error-message>
             </div>
@@ -61,24 +65,24 @@
           <!-- Email -->
           <div class="mb-3">
             <label for="email" class="form-label">電子郵件</label>
-            <v-field id="email" name="email" type="email" class="form-control" :class="{ 'is-invalid': errors['email'] }"
+            <v-field id="email" name="email" type="email" class="form-control fs-6 mt-2" :class="{ 'is-invalid': errors['email'] }"
               rules="email|required" placeholder="請輸入 Email" v-model.trim="orderData.user.email"></v-field>
             <error-message name="email" class="invalid-feedback"></error-message>
           </div>
           <!-- address -->
           <div class="mb-3">
             <label for="address" class="form-label">地址</label>
-            <v-field id="address" name="地址" type="text" class="form-control" :class="{ 'is-invalid': errors['地址'] }"
+            <v-field id="address" name="地址" type="text" class="form-control fs-6 mt-2" :class="{ 'is-invalid': errors['地址'] }"
               placeholder="請輸入地址" rules="required" v-model="orderData.user.address"></v-field>
             <error-message name="地址" class="invalid-feedback"></error-message>
           </div>
           <!-- remark -->
           <div class="mb-3">
             <label for="remark" class="form-label">備註</label>
-            <textarea class="form-control" name="remark" id="remark" cols="30" rows="5" v-model="orderData.message"></textarea>
+            <textarea class="form-control fs-6 mt-2" name="remark" id="remark" cols="30" rows="5" v-model="orderData.message"></textarea>
           </div>
           <div class="mb-3 text-center">
-            <button type="submit" class="btn btn-primary btn-lg text-white w-100 w-md-25">下一步</button>
+            <button type="submit" class="btn btn-primary btn-lg text--light w-100 w-md-25">下一步</button>
           </div>
         </v-form>
       </div>
@@ -88,7 +92,7 @@
         :loader="loader"
         :is-full-page="fullPage"
         :color="color"></Loading>
-        <h5 class="mb-3">收件人資料</h5>
+        <h5 class="fw--medium mb-3">收件人資料</h5>
         <table class="table table-striped">
           <tbody>
             <tr>

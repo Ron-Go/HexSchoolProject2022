@@ -10,8 +10,6 @@ export default {
     };
   },
   components: {
-    // navBar,
-    // pageFooter,
   },
   mounted() {
   },

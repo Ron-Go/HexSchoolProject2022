@@ -1,18 +1,21 @@
 <template lang="">
   <section class="products">
-    <div v-if="!products.length" class="position-relative" style="height: 75vh">
+    <div v-if="!products.length" class="position-relative" style="height: 100vh">
       <Loading
         :active="isLoading"
         :loader="loader"
         :is-full-page="fullPage"
-        :color="color"></Loading>
+        :color="color"
+        :background-color="backgroundColor"
+        :opacity="opacity"></Loading>
     </div>
     <div v-else class="products__category sticky-top">
       <div class="products__category__container container-auto">
         <ul class="products__category__list d-flex mx-auto">
           <li class="products__category__item">
-            <a class="item__link item__link--active" href="#" @click="categoryActive" @click.prevent="getProducts()">ALL</a>
+            <a class="item__link" href="#" @click="categoryActive" @click.prevent="getProducts()">ALL</a>
           </li>
+          <!-- item__link--active -->
           <li v-for="(item, key) in productsCategory" :key="'item' + key" class="products__category__item">
             <a class="item__link" href="#" @click="categoryActive"
               @click.prevent="getProducts(item)">{{ item }}</a>
@@ -21,7 +24,8 @@
       </div>
     </div>
     <ul class="products__container container-auto">
-      <li v-for="(item, key) in products" :key="'item' + key" class="product__item">
+      <li v-for="(item, key) in products" :key="'item' + key" class="product__item position-relative">
+        <a class="product__item__click position-absolute" href="#" @click.prevent="getProduct(item.id)"></a>
         <!-- 加入favorite -->
         <a class="product__favorite" href="#" @click.prevent="addFavorite(item.id)">
           <span class="material-symbols-outlined d-block fs-4"
@@ -61,14 +65,16 @@
               @click="item.qty -= 1" :disabled="item.qty === 1">
                 <span class="material-symbols-outlined">remove</span>
               </button>
-              <span class="product__num__value">{{ item.qty }}</span>
+              <p class="product__num__value d-flex">
+                <span class="fs-6 my-auto">{{ item.qty }}</span>
+              </p>
               <button type="button" class="product__num__add"
               @click="item.qty += 1">
                 <span class="material-symbols-outlined">add</span>
               </button>
             </div>
             <button type="button" class="product__addCart d-flex btn btn-primary border-0 text-white-100"
-            @click.prevent="addToCart(item.id)">
+            @click.prevent="addToCart(item.id, item.qty)">
               加入購物車
               <span class="material-symbols-outlined">add_shopping_cart</span>
             </button>
@@ -111,6 +117,7 @@ export default {
       getFavorite: [],
       // 傳入元件的分頁資訊
       pagination: {},
+      categoryRender: false,
     };
   },
   components: {
@@ -119,7 +126,7 @@ export default {
   },
   mounted() {
     this.getCategory();
-    this.getProducts();
+    this.getProducts(this.$route.params.category);
     emitter.emit('products-routeName', this.$route.name);
     // 監聽refresh-favorite事件，更新我的最愛追蹤
     emitter.on('refresh-favorite', () => {
@@ -128,9 +135,18 @@ export default {
     this.getLocalStorage();
   },
   watch: {
-    // 監聽this.$route的資料變化（$route.query.category）
-    $route() {
-      this.getProducts();
+    $route: {
+      handler() {
+        console.log(this.$route);
+      },
+      deep: false,
+    },
+    // 監聽categoryRender，取得商品分類渲染完成後，active該產品分類
+    categoryRender() {
+      if (this.categoryRender === true) {
+        // 帶入產品分類，初始值為'ALL'，若從產品內容點擊分類（Breadcrumb）則帶入this.$route.params.category
+        this.activeCategory(this.$route.params.category || 'ALL');
+      }
     },
   },
   methods: {
@@ -143,7 +159,6 @@ export default {
         .get(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/?category=${isCategory}`)
         .then((res) => {
           // 取得分類商品資料，存放products，準備渲染畫面
-          console.log(res.data);
           this.products = res.data.products;
           this.addQtyNum();
           // 取得分頁
@@ -188,6 +203,9 @@ export default {
               this.productsCategory.push(item.category);
             }
           });
+          setTimeout(() => {
+            this.categoryRender = true;
+          }, 50);
         })
         .catch((err) => {
           console.dir(err);
@@ -205,7 +223,6 @@ export default {
       }
       // 點選的連結加上className，category-item-active
       e.target.classList.add('item__link--active');
-      console.log(children);
     },
     // 所有產品資料，加上qty屬性
     addQtyNum() {
@@ -232,23 +249,49 @@ export default {
       });
     },
     // 增加商品到購物車
-    addToCart(id) {
-      const item = {
-        product_id: id,
-        qty: 1,
+    addToCart(productId, productQty) {
+      const productItem = {
+        product_id: productId,
+        qty: productQty,
       };
       this.axios
-        .post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`, { data: item })
+        .post(`${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`, { data: productItem })
         .then((res) => {
           console.dir(res);
           // 增加商品到購物車，成功後發送getCart行為（取得購物車內資料）
-          emitter.emit('getCart', item);
+          emitter.emit('getCart', productItem);
           // 商品加入購物車後，顯示dialog視窗
           this.showDialog(1);
+          // 加入購物車後，把該商品選擇數量設為1
+          this.products.forEach((item, index) => {
+            if (item.id === productId) {
+              this.products[index].qty = 1;
+            }
+          });
         })
         .catch((err) => {
           console.dir(err);
         });
+    },
+    getProduct(id) {
+      this.$router.push(`product/${id}`);
+    },
+    activeCategory(category) {
+      console.log(category);
+      // this.$route.params.category !== undefined &&
+      if (this.categoryRender === true) {
+        const domList = document.querySelector('.products__category__list').children;
+        console.log(domList);
+        for (let i = 0; i <= domList.length - 1; i += 1) {
+          domList[i].children[0].classList.remove('item__link--active');
+          if (domList[i].children[0].innerText === category) {
+            domList[i].children[0].classList.add('item__link--active');
+          }
+        }
+        this.categoryRender = false;
+      } else {
+        this.categoryRender = false;
+      }
     },
   },
   mixins: [currencyMixin, dialogMixin, LoadingComponent],

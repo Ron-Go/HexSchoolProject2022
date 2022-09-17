@@ -1,5 +1,5 @@
 <template lang="">
-<section class="about">
+<section class="about" style="overflow-x: hidden;">
   <div class="about__container container-auto">
     <h2 class="about__title text-center">服務項目</h2>
     <p class="about__caption text-center">以專業技術精神為你挑選<br class="d-none">品質、實用性與風格兼具的商品<br>服務與活動結合線上功能<br class="d-none">帶來更有效率的體驗、互動樂趣</p>
@@ -117,18 +117,18 @@ export default {
     this.scrollReveal.reveal('.about-reveal-left', {
       delay: 150,
       reset: false,
-      distance: '15px',
+      distance: '80px',
       duration: 2000,
       origin: 'left',
-      interval: 800,
+      interval: 1500,
     });
     this.scrollReveal.reveal('.about-reveal-right', {
       delay: 150,
       reset: false,
-      distance: '15px',
+      distance: '80px',
       duration: 2000,
       origin: 'right',
-      interval: 800,
+      interval: 1500,
     });
   },
   unmounted() {

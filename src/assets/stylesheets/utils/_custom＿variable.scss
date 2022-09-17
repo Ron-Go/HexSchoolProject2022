@@ -43,6 +43,19 @@ $color-darken-white: (
     0: darken($white, 100%),
 );
 
+$theme-colors: (
+    'primary': $primary,
+    'secondary': $secondary,
+    'success': $success,
+    'info': $info,
+    'warning': $warning,
+    'danger': $danger,
+    'light': $light,
+    'dark': $dark,
+    'lightprimary': rgba($primary, .25),
+    'bggray': #eaeaea,
+);
+
 
 $font-weight-value: (
     thin: 100,
@@ -53,7 +66,27 @@ $font-weight-value: (
     black: 900,
 );
 
+$spacer: 1rem;
+$spacers: (
+    0: 0,
+    1: $spacer / 4,
+    2: $spacer / 2,
+    3: $spacer,
+    4: $spacer * 1.5,
+    5: $spacer * 2,
+    6: $spacer * 4,
+    7: $spacer * 5,
+    12: $spacer * 0.75,
+    18: $spacer * 1.75,
+    36: $spacer * 2.25,
+    40: $spacer * 2.5,
+    48: $spacer * 3,
+    56: $spacer * 3.5,
+    63: $spacer * 3.9375,
+    72: $spacer * 4.5,
+);
 
+$font-size-base: 1rem;
 $font-size: (
   0: $font-size-base * 0,
   1: $font-size-base * 2.5,
@@ -62,9 +95,16 @@ $font-size: (
   4: $font-size-base * 1.5,
   5: $font-size-base * 1.25,
   6: $font-size-base * 1,
+  14: $font-size-base * 0.875,
+  18: $font-size-base * 1.125,
+  32: $font-size-base * 2,
+  36: $font-size-base * 2.25,
+  48: $font-size-base * 3,
 );
 
-$color-font-base: #650300;
+
+
+$color-font-base: #000000;
 $color-font-banner-bgText: $white;
 $color-font-banner-title: $white;
 $color-font-btn: #ffffff;

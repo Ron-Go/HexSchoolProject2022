@@ -1,8 +1,8 @@
 <template lang="">
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header bg-success">
-      <h5 class="text-light mb-0" id="offcanvasRightLabel">購物車</h5>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div class="offcanvas-header bg--primary">
+      <h4 class="text--light fw--medium" id="offcanvasRightLabel">購物車</h4>
+      <button type="button" class="btn-close btn-close-white fs-5" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <div v-if="cart.products.length" class="container position-relative">
@@ -12,12 +12,12 @@
         :is-full-page="fullPage"
         :color="color"></Loading>
         <div class="d-flex justify-content-between align-items-center">
-          <h5 class="mb-3">已加入<span class="text-danger">{{ cart.products.length }}項</span>商品</h5>
+          <h5 class="mb-3">已加入<span class="text--primary fw--bold mx-2">{{ cart.products.length }}項</span>商品</h5>
           <button type="button"
-            class="btn btn-outline-danger btn-sm mb-3"
+            class="btn btn-outline-danger btn-md fs-5 mb-3"
             @click="cleanCart">清空購物車</button>
         </div>
-          <div v-for="(item, key) in cart.products" :key="'item' + key" class="row position-relative align-items-center border-bottom py-3">
+          <div v-for="(item, key) in cart.products" :key="'item' + key" class="row position-relative align-items-center border-bottom py-3 mb-5">
             <div class="col-5 g-0">
               <div
               :style="{
@@ -25,69 +25,73 @@
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
               }"
-              style="height: 100px"
+              style="padding-top: 115px"
               ></div>
             </div>
             <div class="col-7 position-relative">
               <div class="body py-3">
-                <button type="button" class="position-absolute btn-close" aria-label="Close" style="top: 0px; right: 0px; font-size: 12px" @click="deleteCartItem(item)"></button>
-                <h6 class="title">{{ item.product.title }}</h6>
-                <div class="row d-flex align-items-center">
+                <button
+                type="button" class="position-absolute btn-close" aria-label="Close"
+                style="top: 0px; right: 0px; font-size: 12px" @click="deleteCartItem(item)"></button>
+                <h6 class="title fw--medium mb-3">{{ item.product.title }}</h6>
+                <div class="row d-flex align-items-stretch">
                   <div class="col-12 d-flex justify-content-start align-items-center">
-                    <h6 class="text text-success fs-6 me-3 mb-0">數量</h6>
+                    <p class="text text--success fs-6 me-3 mb-0">數量</p>
                     <div class="input-group w-50">
                       <button type="button"
                         class="btn btn-outline-secondary btn-sm py-0"
-                        :disabled="item.qty === 1" @click="modifyCartQty(item, 'sub')">-</button>
-                      <span class="form-control border-secondary text-center px-0 py-0">{{ item.qty }}</span>
+                        :disabled="item.qty === 1" @click="modifyCartQty(item, 'sub')">
+                        <span class="material-symbols-outlined d-block fs-6">remove</span>
+                      </button>
+                      <span class="form-control border-secondary text-center fs-5 px-0 py-0">{{ item.qty }}</span>
                       <button type="button"
                         class="btn btn-outline-secondary btn-sm py-0"
-                        @click="modifyCartQty(item, 'add')">+</button>
+                        @click="modifyCartQty(item, 'add')">
+                        <span class="material-symbols-outlined d-block fs-6">add</span>
+                      </button>
                     </div>
                   </div>
-                  <!-- <div class="col-7">
-                  </div> -->
                 </div>
                 <div class="col-12 d-flex justify-content-between mt-2">
-                  <h6 class="card-text">總價:
-                    <span class="text-danger fw-bold">${{ currency(item.total) }}</span>
-                  </h6>
+                  <p class="fs-6 card-text">總價:
+                    <span class="fs-6 text--danger ms-2 fw--bold">${{ currency(item.total) }}</span>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        <div class="input-group pt-3">
+        <div class="input-group mb-2">
           <input type="text"
-            class="form-control border-success"
+            class="form-control border-primary"
             placeholder="請輸入折扣碼" v-model="discount.code">
-          <button type="button" class="btn btn-outline-success" @click.prevent="discountConfirm">確認</button>
+          <button type="button" class="btn btn-outline-primary text--light" @click.prevent="discountConfirm">確認</button>
         </div>
-        <p class="text-success text-end fs-6">開幕慶輸入折扣碼newopen可享優惠</p>
+        <p class="text-black-50 text-end fs-6 mb-3">開幕慶輸入折扣碼newopen可享優惠</p>
         <table class="table text-end">
           <tbody class="">
             <tr>
-              <th>總價：</th>
-              <td>{{ currency(this.cart.total) }}</td>
+              <th class="fw--medium">總價：</th>
+              <td class="fs-5 fw--bold">${{ currency(this.cart.total) }}</td>
             </tr>
             <tr>
-              <th>折扣：</th>
-              <td class="text-success">{{`-${currency(this.cart.total - this.cart.finalTotal)}`}}</td>
+              <th class="fw--medium">折扣：</th>
+              <td class="text--success fs-5 fw--bold">${{`-${currency(this.cart.total - this.cart.finalTotal)}`}}</td>
             </tr>
-            <tr class="fs-5">
-              <th>最後總價：</th>
-              <th class="text-danger">{{ currency(this.cart.finalTotal) }}</th>
+            <tr>
+              <th class="fw--medium">全部總價：</th>
+              <th class="text--danger fs-4 fw--bold">${{ currency(this.cart.finalTotal) }}</th>
             </tr>
           </tbody>
         </table>
         <button
           type="button"
-          class="btn btn-primary text-white btn-lg d-block ms-auto"
+          class="btn btn-primary btn-lg fs-4 text--light d-block ms-auto"
           @click="cartSendOrder"
           >結帳去</button>
       </div>
       <div v-else class="container text-center">
-        <h5>購物車為空的</h5>
-        <router-link class="btn btn-success" to="/front/products" @click.prevent="$emit('hide-cart')">繼續購物</router-link>
+        <p class="fs-4 mb-4">購物車為空的</p>
+        <router-link class="btn btn-primary" to="/front/products" @click.prevent="$emit('hide-cart')">繼續購物</router-link>
       </div>
     </div>
   </div>
