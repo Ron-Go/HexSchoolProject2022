@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkproject2022"]=self["webpackChunkproject2022"]||[]).push([[525],{2525:function(r,e,n){n.r(e),n.d(e,{default:function(){return a}});var t=n(6252);function u(r,e,n,u,c,o){const s=(0,t.up)("router-view");return(0,t.wg)(),(0,t.j4)(s)}var c={},o=n(3744);const s=(0,o.Z)(c,[["render",u]]);var a=s}}]);
+//# sourceMappingURL=525.b69b32ae.js.map
